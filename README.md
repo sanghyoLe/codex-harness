@@ -8,6 +8,12 @@ Project-specific harness generator for `AGENTS.md`, repo-local skills, and reusa
 
 This repository adapts the original Claude-oriented `harness` project into a Codex-native plugin and meta skill. The goal is the same: when a user says "하네스 구성해줘" or "build a harness for this project", Codex should analyze the domain, choose a coordination pattern, define specialist roles, and scaffold a reusable harness for the current repository.
 
+## Origin
+
+This repository adapts [revfactory/harness](https://github.com/revfactory/harness) for Codex.
+
+The original idea and overall structure came from that project, while this repository focuses on Codex-native outputs such as `AGENTS.md`, `.agents/skills/`, `.codex/agents/`, and `.codex/config.toml`.
+
 ## Ask Codex To Reference This Repo
 
 The intended usage is not "clone this repo and manually copy files." The simpler workflow is to ask Codex to build a new harness while using `codex-harness` as the reference repository.

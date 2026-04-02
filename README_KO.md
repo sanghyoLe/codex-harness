@@ -8,6 +8,12 @@
 
 이 저장소는 Claude용 원본 `harness` 프로젝트를 Codex-native 플러그인과 메타 스킬로 옮긴 것이다. 목표는 같다. 사용자가 "하네스 구성해줘" 또는 "이 프로젝트에 맞는 harness 만들어줘"라고 요청하면, Codex가 도메인을 분석하고 협업 패턴을 고른 뒤, 전문 역할과 오케스트레이터 스킬을 포함한 재사용 가능한 로컬 하네스를 생성하게 만드는 것이다.
 
+## 원본 프로젝트
+
+이 저장소는 [revfactory/harness](https://github.com/revfactory/harness)를 Codex에서 쓰기 좋게 맞춘 버전이다.
+
+기본 아이디어와 전체 구조는 그 프로젝트에서 왔고, 이 저장소는 `AGENTS.md`, `.agents/skills/`, `.codex/agents/`, `.codex/config.toml` 같은 Codex-native 산출물에 초점을 맞춘다.
+
 ## Codex에게 이렇게 요청하면 된다
 
 의도한 사용 방식은 "이 저장소를 클론해서 파일을 수작업으로 베끼기"가 아니다. 더 간단한 방식은 Codex에게 `codex-harness` 저장소를 참고해서 새 하네스를 만들어 달라고 요청하는 것이다.
