@@ -1,0 +1,17 @@
+This repository, `codex-harness`, includes material adapted from:
+
+  revfactory/harness
+  https://github.com/revfactory/harness
+
+This repository is a derivative work prepared for Codex-focused usage.
+It modifies and extends the original project structure to produce
+Codex-native outputs such as:
+
+- `AGENTS.md`
+- `.agents/skills/`
+- `.codex/agents/`
+- `.codex/config.toml`
+
+Repository-specific documentation, examples, scaffolding logic, and
+configuration may have been added, removed, renamed, or modified from the
+original project.
