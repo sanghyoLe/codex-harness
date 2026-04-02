@@ -8,6 +8,20 @@ Project-specific harness generator for `AGENTS.md`, repo-local skills, and reusa
 
 This repository adapts the original Claude-oriented `harness` project into a Codex-native plugin and meta skill. The goal is the same: when a user says "하네스 구성해줘" or "build a harness for this project", Codex should analyze the domain, choose a coordination pattern, define specialist roles, and scaffold a reusable harness for the current repository.
 
+## Ask Codex To Reference This Repo
+
+The intended usage is not "clone this repo and manually copy files." The simpler workflow is to ask Codex to build a new harness while using `codex-harness` as the reference repository.
+
+Tell Codex to inspect this repo, look at the included examples, and generate a harness for your target domain in the same style.
+
+Example prompt:
+
+```text
+codex-harness를 참고해서 일본 여행 길라잡이 웹 서비스 하네스 만들어줘
+```
+
+That is the core pattern: ask Codex to use `codex-harness` as the reference, then describe the product or workflow you want the new harness to support.
+
 ## Quick Install
 
 Today, the practical install paths are `repo marketplace` or `personal marketplace`. Official self-serve publishing to the public Codex Plugin Directory is not available yet.
