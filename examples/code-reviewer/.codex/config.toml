@@ -1,6 +1,6 @@
 #:schema https://developers.openai.com/codex/config-schema.json
 
-web_search = "off"
+web_search = "disabled"
 
 [features]
 multi_agent = true
