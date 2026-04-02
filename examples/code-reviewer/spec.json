@@ -1,0 +1,163 @@
+{
+  "slug": "code-reviewer",
+  "title": "Code Reviewer Harness",
+  "summary": "Parallel code review harness for architecture, security, performance, and style, with a synthesis reviewer that merges findings into a single decision.",
+  "collaboration_pattern": "fan-out/fan-in",
+  "workspace_root": "_workspace",
+  "web_search": "off",
+  "workspace_outputs": [
+    "_workspace/00_input.md",
+    "_workspace/01_style_review.md",
+    "_workspace/02_security_review.md",
+    "_workspace/03_performance_review.md",
+    "_workspace/04_architecture_review.md",
+    "_workspace/05_review_summary.md"
+  ],
+  "orchestrator": {
+    "name": "code-reviewer",
+    "description": "Use when the user asks for a broad code review harness, PR review structure, or a role-based review team for architecture, security, performance, and code style."
+  },
+  "activation_examples": [
+    "코드 리뷰 하네스 만들어줘",
+    "이 저장소에 맞는 PR 리뷰 팀 설계해줘",
+    "보안/성능/아키텍처를 나눠서 리뷰하는 구조 만들어줘"
+  ],
+  "mode_matrix": [
+    {
+      "request": "full review",
+      "roles": [
+        "style-inspector",
+        "security-analyst",
+        "performance-analyst",
+        "architecture-reviewer",
+        "review-synthesizer"
+      ],
+      "notes": "Default mode for broad repository or PR review."
+    },
+    {
+      "request": "security-only review",
+      "roles": [
+        "security-analyst",
+        "review-synthesizer"
+      ],
+      "notes": "Skip unrelated roles when the user only wants security feedback."
+    },
+    {
+      "request": "performance-only review",
+      "roles": [
+        "performance-analyst",
+        "review-synthesizer"
+      ],
+      "notes": "Focus on bottlenecks, waste, and scaling risks."
+    }
+  ],
+  "phases": [
+    {
+      "name": "Phase 1: Intake",
+      "steps": [
+        "Extract the review target, language or framework, scope, and any PR-specific context from the user request.",
+        "Inspect the repository or diff and write the normalized review brief to `_workspace/00_input.md`.",
+        "Decide whether the request needs the full review team or a narrow review mode."
+      ]
+    },
+    {
+      "name": "Phase 2: Parallel Review",
+      "steps": [
+        "Run style, security, performance, and architecture review in parallel when the request is broad.",
+        "Have each specialist write findings to its assigned workspace file and call out blockers or cross-role contradictions immediately.",
+        "If the request is narrow, activate only the relevant specialist role plus the synthesizer."
+      ]
+    },
+    {
+      "name": "Phase 3: Synthesis",
+      "steps": [
+        "Read all specialist outputs and merge duplicates, overlaps, and contradictory recommendations.",
+        "Assign severity and action priority in `_workspace/05_review_summary.md`.",
+        "Return a final decision with required fixes, optional improvements, and residual uncertainty."
+      ]
+    }
+  ],
+  "supporting_skills": [
+    {
+      "name": "vulnerability-patterns",
+      "description": "Language-aware vulnerability checklist for the security analyst."
+    },
+    {
+      "name": "refactoring-catalog",
+      "description": "Refactoring patterns and code-smell remediation guidance for architecture and performance review."
+    }
+  ],
+  "agents": [
+    {
+      "name": "style-inspector",
+      "role_title": "Style Inspector",
+      "description": "Inspect naming, formatting, readability, comment quality, and local coding conventions.",
+      "output_path": "_workspace/01_style_review.md",
+      "reports_to": "review-synthesizer",
+      "focus_areas": [
+        "Naming consistency and local conventions",
+        "Formatting and readability regressions",
+        "Comment quality and misleading abstractions"
+      ]
+    },
+    {
+      "name": "security-analyst",
+      "role_title": "Security Analyst",
+      "description": "Inspect trust boundaries, exploitable issues, unsafe defaults, and sensitive-data handling.",
+      "output_path": "_workspace/02_security_review.md",
+      "reports_to": "review-synthesizer",
+      "focus_areas": [
+        "Authentication and authorization weaknesses",
+        "Injection, unsafe deserialization, and sensitive-data exposure",
+        "Security assumptions hidden in config or error handling"
+      ]
+    },
+    {
+      "name": "performance-analyst",
+      "role_title": "Performance Analyst",
+      "description": "Inspect latency, throughput, algorithmic waste, unnecessary allocations, and query inefficiencies.",
+      "output_path": "_workspace/03_performance_review.md",
+      "reports_to": "review-synthesizer",
+      "focus_areas": [
+        "Algorithmic hotspots and repeated work",
+        "Inefficient I/O, DB access, and caching opportunities",
+        "Memory churn and scaling risks"
+      ]
+    },
+    {
+      "name": "architecture-reviewer",
+      "role_title": "Architecture Reviewer",
+      "description": "Inspect module boundaries, dependency direction, cohesion, coupling, and long-term maintainability.",
+      "output_path": "_workspace/04_architecture_review.md",
+      "reports_to": "review-synthesizer",
+      "focus_areas": [
+        "Dependency direction and module boundaries",
+        "Cohesion, coupling, and change amplification",
+        "Testability and maintainability risks"
+      ]
+    },
+    {
+      "name": "review-synthesizer",
+      "role_title": "Review Synthesizer",
+      "description": "Merge findings from all review roles, remove duplicates, and assign final severity and action priority.",
+      "output_path": "_workspace/05_review_summary.md",
+      "receives_from": [
+        "_workspace/01_style_review.md",
+        "_workspace/02_security_review.md",
+        "_workspace/03_performance_review.md",
+        "_workspace/04_architecture_review.md"
+      ],
+      "focus_areas": [
+        "Deduplicate overlapping findings",
+        "Resolve conflicts between correctness, security, and performance recommendations",
+        "Produce a final decision with severity ordering"
+      ]
+    }
+  ],
+  "reference_harnesses": [
+    {
+      "path": "/Users/isanghyo/Desktop/harness/codex-harness-100/ko/21-code-reviewer",
+      "reason": "Closest existing Codex review harness with parallel specialist roles and a synthesis step."
+    }
+  ]
+}

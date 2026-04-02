@@ -1,0 +1,42 @@
+{
+  "name": "harness",
+  "version": "0.1.0",
+  "description": "Harness Architect for Codex. Designs project-specific harnesses, defines reusable subagent roles, and generates repo-local skills using codex-harness-100 as a reference library when available.",
+  "author": {
+    "name": "isanghyo",
+    "email": "noreply@example.com",
+    "url": "https://github.com/revfactory"
+  },
+  "homepage": "https://github.com/revfactory/codex-harness",
+  "repository": "https://github.com/revfactory/codex-harness",
+  "license": "Apache-2.0",
+  "keywords": [
+    "codex",
+    "harness",
+    "multi-agent",
+    "skills",
+    "scaffolding"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Harness",
+    "shortDescription": "Design and scaffold Codex-native project harnesses",
+    "longDescription": "Analyze the current repository, choose a collaboration pattern, define specialist roles, and scaffold AGENTS.md, repo-local skills, and Codex subagent configs. Reuse codex-harness-100 patterns when a close reference exists.",
+    "developerName": "revfactory",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/revfactory/codex-harness",
+    "privacyPolicyURL": "https://github.com/revfactory/codex-harness",
+    "termsOfServiceURL": "https://github.com/revfactory/codex-harness",
+    "defaultPrompt": [
+      "하네스 구성해줘",
+      "이 프로젝트에 맞는 에이전트 팀 설계해줘",
+      "코드 리뷰 하네스 만들어줘",
+      "Build a harness for this project"
+    ],
+    "brandColor": "#2563EB"
+  }
+}
