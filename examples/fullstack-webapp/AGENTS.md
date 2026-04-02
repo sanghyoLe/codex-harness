@@ -38,7 +38,7 @@ Open the project in a trusted state so Codex loads the local `.codex/` config.
 
 Ask Codex to use the `fullstack-webapp` skill, or use a natural-language request that matches it.
 - Recommended start: `fullstack-webapp`
-- `web_search` default: `off`
+- `web_search` default: `disabled`
 - Workspace root: `_workspace`
 
 ## Outputs

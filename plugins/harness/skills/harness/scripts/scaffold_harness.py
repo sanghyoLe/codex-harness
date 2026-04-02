@@ -59,7 +59,7 @@ def normalize_spec(raw_spec: dict) -> dict:
 
     spec["max_threads"] = spec.get("max_threads", max(len(spec["agents"]) + 1, 2))
     spec["max_depth"] = spec.get("max_depth", 1)
-    spec["web_search"] = spec.get("web_search", "off")
+    spec["web_search"] = spec.get("web_search", "disabled")
     return spec
 
 
@@ -70,7 +70,7 @@ def render_agents_md(spec: dict) -> str:
     skills = [orchestrator, *ensure_list(spec.get("supporting_skills"))]
     agents = ensure_list(spec.get("agents"))
     outputs = ensure_list(spec.get("workspace_outputs"))
-    web_search = spec.get("web_search", "off")
+    web_search = spec.get("web_search", "disabled")
     references = ensure_list(spec.get("reference_harnesses"))
     pattern = spec.get("collaboration_pattern", "supervisor")
     workspace_root = spec.get("workspace_root", "_workspace")
@@ -158,7 +158,7 @@ def render_config_toml(spec: dict) -> str:
     lines = [
         "#:schema https://developers.openai.com/codex/config-schema.json",
         "",
-        f'web_search = "{spec.get("web_search", "off")}"',
+        f'web_search = "{spec.get("web_search", "disabled")}"',
         "",
         "[features]",
         "multi_agent = true",

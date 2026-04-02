@@ -4,7 +4,7 @@
   "summary": "Pipeline-oriented fullstack delivery harness for requirements, architecture, frontend, backend, QA, and deployment preparation.",
   "collaboration_pattern": "pipeline",
   "workspace_root": "_workspace",
-  "web_search": "off",
+  "web_search": "disabled",
   "workspace_outputs": [
     "_workspace/00_input.md",
     "_workspace/01_architecture.md",

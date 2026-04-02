@@ -4,7 +4,7 @@
   "summary": "Parallel code review harness for architecture, security, performance, and style, with a synthesis reviewer that merges findings into a single decision.",
   "collaboration_pattern": "fan-out/fan-in",
   "workspace_root": "_workspace",
-  "web_search": "off",
+  "web_search": "disabled",
   "workspace_outputs": [
     "_workspace/00_input.md",
     "_workspace/01_style_review.md",
