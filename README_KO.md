@@ -117,7 +117,7 @@ Personal marketplace 파일 예시:
 - `AGENTS.md`
 - `.agents/skills/` 아래의 오케스트레이터 스킬
 - 선택적 supporting skill
-- `.codex/agents/` 아래의 서브에이전트 역할 설정
+- `.codex/agents/` 아래의 standalone 서브에이전트 파일
 - `.codex/config.toml`
 
 생성된 하네스는 중간 산출물, handoff 메모, 실행 단위 작업 파일을 위해 저장소 로컬 `_workspace/` 디렉터리를 함께 쓰는 경우가 많다. 이 폴더는 현재 저장소에서만 쓰는 로컬 scratch 영역이지 소스 디렉터리나 공유 패키지가 아니므로, 대부분의 프로젝트에서는 재생성 가능한 대상으로 보고 `.gitignore`에 넣는 편이 맞다.
@@ -319,9 +319,8 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
 - `.agents/skills/<skill>/SKILL.md`
 - `.codex/config.toml`
 - `.codex/agents/<role>.toml`
-- `.codex/agents/<role>.md`
 
-스크립트는 이름을 Codex-friendly slug로 정규화해 config와 실제 파일 경로가 어긋나지 않게 만든다.
+생성되는 `.codex/agents/<role>.toml`은 최신 Codex 커스텀 서브에이전트 스키마에 맞춰 `name`, `description`, `developer_instructions`를 standalone 파일 안에 직접 담는다.
 
 ## 예제 산출물
 

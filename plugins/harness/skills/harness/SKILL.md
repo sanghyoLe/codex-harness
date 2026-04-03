@@ -1,6 +1,6 @@
 ---
 name: harness
-description: "하네스를 구성합니다. 현재 저장소에 맞는 Codex-native 하네스를 설계하고 `AGENTS.md`, `.agents/skills/*/SKILL.md`, `.codex/config.toml`, `.codex/agents/*.toml`, `.codex/agents/*.md`를 생성하거나 재구성할 때 사용합니다. '하네스 구성해줘', '에이전트 팀 설계해줘', 'research harness 만들어줘', '코드 리뷰 하네스 만들어줘' 같은 요청에서 적극적으로 사용합니다."
+description: "하네스를 구성합니다. 현재 저장소에 맞는 Codex-native 하네스를 설계하고 `AGENTS.md`, `.agents/skills/*/SKILL.md`, `.codex/config.toml`, `.codex/agents/*.toml`를 생성하거나 재구성할 때 사용합니다. '하네스 구성해줘', '에이전트 팀 설계해줘', 'research harness 만들어줘', '코드 리뷰 하네스 만들어줘' 같은 요청에서 적극적으로 사용합니다."
 ---
 
 # Harness
@@ -24,7 +24,6 @@ Codex용 프로젝트 하네스를 설계하고 스캐폴드하는 메타 스킬
 - 선택적 `.agents/skills/<supporting-skill>/SKILL.md`
 - `.codex/config.toml`
 - `.codex/agents/<role>.toml`
-- `.codex/agents/<role>.md`
 
 사용자가 명시적으로 원하지 않는 한 Claude 전용 `.claude/` 구조는 만들지 않는다.
 
@@ -44,7 +43,7 @@ python3 plugins/harness/skills/harness/scripts/find_reference_harness.py "code r
 
 - `AGENTS.md`
 - 메인 오케스트레이터 `SKILL.md`
-- 대표 역할 1~2개의 `.codex/agents/*.md`
+- 대표 역할 1~2개의 `.codex/agents/*.toml`
 
 선택한 레퍼런스는 새 하네스의 `reference_harnesses`에 기록한다.
 
@@ -121,9 +120,15 @@ python3 plugins/harness/skills/harness/scripts/find_reference_harness.py "code r
 
 ### Phase 4: 역할 정의 생성
 
-각 역할은 `.codex/agents/{name}.toml` + `.codex/agents/{name}.md`로 남긴다.
+각 역할은 standalone 커스텀 에이전트 파일인 `.codex/agents/{name}.toml`로 남긴다.
 
 역할 정의 파일에는 최소한 다음이 있어야 한다:
+
+- `name`
+- `description`
+- `developer_instructions`
+
+`developer_instructions` 안에는 최소한 다음이 들어가야 한다:
 
 - 핵심 역할
 - 작업 원칙
@@ -156,15 +161,14 @@ supporting skill은 반복 전문지식만 담는다. 메인 스킬의 절차를
 생성 후 반드시 다음을 점검한다:
 
 - `[TODO]` 플레이스홀더가 남지 않았는지
-- `.codex/config.toml`의 `config_file` 경로가 실제 파일과 일치하는지
-- 각 `.toml`의 `model_instructions_file`이 실제 `.md`와 일치하는지
+- 각 `.codex/agents/*.toml`에 `name`, `description`, `developer_instructions`가 있는지
 - 오케스트레이터 description이 실제 사용자 프롬프트를 잘 받는지
 - 레퍼런스를 참고했다면 맹목적 복사가 아니라 의도적 변형인지
 
 검사용 예시:
 
 ```bash
-rg -n "\\[TODO\\]|config_file|model_instructions_file" AGENTS.md .agents .codex
+rg -n "\\[TODO\\]|developer_instructions|^name =|^description =" AGENTS.md .agents .codex
 ```
 
 ## 파일 작성 규칙
@@ -187,12 +191,17 @@ rg -n "\\[TODO\\]|config_file|model_instructions_file" AGENTS.md .agents .codex
 
 - `web_search` 설정
 - `multi_agent` 여부
-- 각 역할의 설명
-- 각 역할의 `config_file`
+- `[agents]` 전역 설정
 
-### 역할별 `.md`
+### 역할별 `.toml`
 
-가능하면 다음 섹션을 쓴다:
+반드시 standalone custom agent 형식을 따른다:
+
+- `name`
+- `description`
+- `developer_instructions = """..."""`
+
+가능하면 `developer_instructions` 안에 다음 섹션을 녹여 쓴다:
 
 - `## Core Responsibilities`
 - `## Working Principles`

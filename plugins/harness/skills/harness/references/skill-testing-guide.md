@@ -22,15 +22,16 @@
 
 다음을 점검한다:
 
-- 각 `config_file`이 실제 파일을 가리키는가
-- 각 `model_instructions_file`이 실제 `.md`를 가리키는가
+- 각 `.codex/agents/*.toml`에 `name`이 있는가
+- 각 `.codex/agents/*.toml`에 `description`이 있는가
+- 각 `.codex/agents/*.toml`에 `developer_instructions`가 있는가
 - 각 스킬에 valid frontmatter가 있는가
 - `[TODO]`나 placeholder가 남아 있지 않은가
 
 권장 검사:
 
 ```bash
-rg -n "config_file|model_instructions_file|^---$|\\[TODO\\]" AGENTS.md .agents .codex
+rg -n "developer_instructions|^name =|^description =|^---$|\\[TODO\\]" AGENTS.md .agents .codex
 ```
 
 ## 3. Dry Run Test

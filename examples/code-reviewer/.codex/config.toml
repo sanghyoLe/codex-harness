@@ -8,23 +8,3 @@ multi_agent = true
 [agents]
 max_threads = 6
 max_depth = 1
-
-[agents.style-inspector]
-description = "Inspect naming, formatting, readability, comment quality, and local coding conventions."
-config_file = ".codex/agents/style-inspector.toml"
-
-[agents.security-analyst]
-description = "Inspect trust boundaries, exploitable issues, unsafe defaults, and sensitive-data handling."
-config_file = ".codex/agents/security-analyst.toml"
-
-[agents.performance-analyst]
-description = "Inspect latency, throughput, algorithmic waste, unnecessary allocations, and query inefficiencies."
-config_file = ".codex/agents/performance-analyst.toml"
-
-[agents.architecture-reviewer]
-description = "Inspect module boundaries, dependency direction, cohesion, coupling, and long-term maintainability."
-config_file = ".codex/agents/architecture-reviewer.toml"
-
-[agents.review-synthesizer]
-description = "Merge findings from all review roles, remove duplicates, and assign final severity and action priority."
-config_file = ".codex/agents/review-synthesizer.toml"

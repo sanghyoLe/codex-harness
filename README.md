@@ -115,7 +115,7 @@ See [PUBLISHING.md](PUBLISHING.md) for full examples and file contents.
 - a repo guide in `AGENTS.md`
 - one orchestrator skill under `.agents/skills/`
 - optional supporting skills
-- reusable subagent role configs under `.codex/agents/`
+- standalone custom subagent files under `.codex/agents/`
 - Codex configuration in `.codex/config.toml`
 
 Generated harnesses commonly also use a repo-local `_workspace/` directory for intermediate artifacts, handoff notes, and per-run working files. That folder is local scratch state for the current repository, not a source directory or shared package, so in most projects it should be treated as disposable and added to `.gitignore`.
@@ -319,9 +319,8 @@ The scaffold script creates:
 - `.agents/skills/<skill>/SKILL.md`
 - `.codex/config.toml`
 - `.codex/agents/<role>.toml`
-- `.codex/agents/<role>.md`
 
-It also normalizes names into Codex-friendly slugs so the generated config and file paths stay aligned.
+Each generated `.codex/agents/<role>.toml` follows the current Codex custom subagent schema and defines `name`, `description`, and `developer_instructions` directly in the standalone file.
 
 ## Example Output
 

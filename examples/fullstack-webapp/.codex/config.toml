@@ -8,23 +8,3 @@ multi_agent = true
 [agents]
 max_threads = 6
 max_depth = 1
-
-[agents.architect]
-description = "Define system shape, data boundaries, API contracts, and execution order so implementation roles can proceed with minimal ambiguity."
-config_file = ".codex/agents/architect.toml"
-
-[agents.frontend-dev]
-description = "Implement pages, UI components, client-side state, and API integration according to the agreed architecture."
-config_file = ".codex/agents/frontend-dev.toml"
-
-[agents.backend-dev]
-description = "Implement API routes, data access, authentication, authorization, and business rules according to the agreed contracts."
-config_file = ".codex/agents/backend-dev.toml"
-
-[agents.qa-engineer]
-description = "Validate interface coherence, test strategy, regression risk, and readiness for release."
-config_file = ".codex/agents/qa-engineer.toml"
-
-[agents.devops-engineer]
-description = "Prepare deployment, CI or release automation, environment assumptions, and operational handoff guidance."
-config_file = ".codex/agents/devops-engineer.toml"

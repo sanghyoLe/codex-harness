@@ -15,9 +15,8 @@ TRANSLATIONS = {
         "codex_structure": "## Codex Structure",
         "agents_md_explains": "- `AGENTS.md` explains this harness.",
         "skills_store": "- `.agents/skills/` stores the orchestrator and supporting skills.",
-        "config_registers": "- `.codex/config.toml` registers reusable subagent roles.",
-        "agent_toml_points": "- `.codex/agents/*.toml` points each role to its instruction file.",
-        "agent_md_contains": "- `.codex/agents/*.md` contains the actual role instructions.",
+        "config_registers": "- `.codex/config.toml` stores global Codex and subagent settings for the project.",
+        "agent_toml_points": "- `.codex/agents/*.toml` defines standalone custom subagents with their own instructions.",
         "trusted_state": "Open the project in a trusted state so Codex loads the local `.codex/` config.",
         "reference_lineage": "## Reference Lineage",
         "collaboration_pattern": "## Collaboration Pattern",
@@ -31,10 +30,11 @@ TRANSLATIONS = {
         "mode_matrix": "## Mode Matrix",
         "orchestrator_only": "`orchestrator only`",
         "validation_checklist": "## Validation Checklist",
-        "check_config": "- Confirm every role in `.codex/config.toml` points to a real `.toml` file.",
-        "check_toml": "- Confirm every role `.toml` points to a real `.md` instructions file.",
+        "check_toml_name": "- Confirm every custom agent TOML defines `name`.",
+        "check_toml_description": "- Confirm every custom agent TOML defines `description`.",
+        "check_toml_instructions": "- Confirm every custom agent TOML defines `developer_instructions`.",
         "remove_placeholders": "- Remove any unresolved placeholders before considering the harness complete.",
-        "use_role": "Use this role when Codex spawns a subagent from `.codex/config.toml`.",
+        "use_role": "Use this role when Codex spawns the matching custom subagent.",
         "core_responsibilities": "## Core Responsibilities",
         "resp_1": "1. Produce concrete outputs, not abstract commentary.",
         "resp_2": "2. Work within the role boundary instead of expanding scope opportunistically.",
@@ -85,9 +85,8 @@ TRANSLATIONS = {
         "codex_structure": "## Codex 구조",
         "agents_md_explains": "- `AGENTS.md`는 이 하네스를 설명한다.",
         "skills_store": "- `.agents/skills/`에는 오케스트레이터와 보조 스킬이 들어간다.",
-        "config_registers": "- `.codex/config.toml`은 재사용 가능한 서브에이전트 역할을 등록한다.",
-        "agent_toml_points": "- `.codex/agents/*.toml`은 각 역할의 지시문 파일을 가리킨다.",
-        "agent_md_contains": "- `.codex/agents/*.md`에는 실제 역할 지시문이 들어간다.",
+        "config_registers": "- `.codex/config.toml`은 프로젝트 전역 Codex 및 서브에이전트 설정을 담는다.",
+        "agent_toml_points": "- `.codex/agents/*.toml`은 지시문을 포함한 standalone 커스텀 서브에이전트를 정의한다.",
         "trusted_state": "Codex가 로컬 `.codex/` 설정을 읽도록 프로젝트를 trusted 상태로 연다.",
         "reference_lineage": "## 참고 하네스 계보",
         "collaboration_pattern": "## 협업 패턴",
@@ -101,10 +100,11 @@ TRANSLATIONS = {
         "mode_matrix": "## 모드 매트릭스",
         "orchestrator_only": "`오케스트레이터만`",
         "validation_checklist": "## 검증 체크리스트",
-        "check_config": "- `.codex/config.toml`의 모든 역할이 실제 `.toml` 파일을 가리키는지 확인한다.",
-        "check_toml": "- 각 역할 `.toml`이 실제 `.md` 지시문 파일을 가리키는지 확인한다.",
+        "check_toml_name": "- 각 커스텀 에이전트 TOML에 `name`이 있는지 확인한다.",
+        "check_toml_description": "- 각 커스텀 에이전트 TOML에 `description`이 있는지 확인한다.",
+        "check_toml_instructions": "- 각 커스텀 에이전트 TOML에 `developer_instructions`가 있는지 확인한다.",
         "remove_placeholders": "- 미해결 placeholder를 모두 제거한 뒤 완료로 본다.",
-        "use_role": "Codex가 `.codex/config.toml`에서 이 역할의 서브에이전트를 띄울 때 사용한다.",
+        "use_role": "Codex가 이 이름의 커스텀 서브에이전트를 띄울 때 사용한다.",
         "core_responsibilities": "## 핵심 책임",
         "resp_1": "1. 추상적 코멘트보다 구체적 산출물을 만든다.",
         "resp_2": "2. 역할 경계를 지키고, 기회주의적으로 범위를 넓히지 않는다.",
@@ -243,7 +243,6 @@ def render_agents_md(spec: dict) -> str:
         t(spec, "skills_store"),
         t(spec, "config_registers"),
         t(spec, "agent_toml_points"),
-        t(spec, "agent_md_contains"),
         "",
         t(spec, "trusted_state"),
         "",
@@ -300,8 +299,9 @@ def render_agents_md(spec: dict) -> str:
             "",
             t(spec, "validation_checklist"),
             "",
-            t(spec, "check_config"),
-            t(spec, "check_toml"),
+            t(spec, "check_toml_name"),
+            t(spec, "check_toml_description"),
+            t(spec, "check_toml_instructions"),
             t(spec, "remove_placeholders"),
         ]
     )
@@ -324,27 +324,14 @@ def render_config_toml(spec: dict) -> str:
         f"max_depth = {spec.get('max_depth', 1)}",
         "",
     ]
-    for agent in ensure_list(spec.get("agents")):
-        lines.extend(
-            [
-                f"[agents.{agent['name']}]",
-                f'description = "{agent["description"].replace(chr(34), chr(39))}"',
-                f'config_file = ".codex/agents/{agent["name"]}.toml"',
-                "",
-            ]
-        )
     return "\n".join(lines).rstrip() + "\n"
 
 
-def render_agent_toml(agent: dict) -> str:
-    return f'model_instructions_file = "{agent["name"]}.md"\n'
-
-
-def render_agent_md(agent: dict) -> str:
+def render_agent_instructions(agent: dict) -> str:
     title = agent.get("role_title") or agent["name"].replace("-", " ").title()
     body = agent.get("instructions")
     if body:
-        return body.rstrip() + "\n"
+        return body.rstrip()
 
     focus_areas = ensure_list(agent.get("focus_areas"))
     reports_to = agent.get("reports_to")
@@ -427,7 +414,41 @@ def render_agent_md(agent: dict) -> str:
             ]
         )
 
-    lines.append("")
+    return "\n".join(lines).rstrip()
+
+
+def render_agent_toml(agent: dict) -> str:
+    instructions = render_agent_instructions(agent).replace('"""', '\\"\\"\\"')
+    lines = [
+        f'name = "{agent["name"]}"',
+        f'description = "{agent["description"].replace(chr(34), chr(39))}"',
+    ]
+
+    nickname_candidates = ensure_list(agent.get("nickname_candidates"))
+    if nickname_candidates:
+        nicknames = ", ".join(f'"{nickname}"' for nickname in nickname_candidates)
+        lines.append(f"nickname_candidates = [{nicknames}]")
+
+    passthrough_keys = [
+        "model",
+        "model_reasoning_effort",
+        "sandbox_mode",
+        "approval_policy",
+        "web_search",
+    ]
+    for key in passthrough_keys:
+        if key in agent:
+            value = str(agent[key]).replace(chr(34), chr(39))
+            lines.append(f'{key} = "{value}"')
+
+    lines.extend(
+        [
+            'developer_instructions = """',
+            instructions,
+            '"""',
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 
@@ -548,7 +569,6 @@ def main() -> None:
     for agent in agents:
         name = agent["name"]
         (target / ".codex" / "agents" / f"{name}.toml").write_text(render_agent_toml(agent))
-        (target / ".codex" / "agents" / f"{name}.md").write_text(render_agent_md(agent))
 
     all_skills = [(orchestrator, True), *[(item, False) for item in supporting_skills]]
     for skill, is_orchestrator in all_skills:

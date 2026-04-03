@@ -6,9 +6,8 @@ Pipeline-oriented fullstack delivery harness for requirements, architecture, fro
 
 - `AGENTS.md` explains this harness.
 - `.agents/skills/` stores the orchestrator and supporting skills.
-- `.codex/config.toml` registers reusable subagent roles.
-- `.codex/agents/*.toml` points each role to its instruction file.
-- `.codex/agents/*.md` contains the actual role instructions.
+- `.codex/config.toml` stores global Codex and subagent settings for the project.
+- `.codex/agents/*.toml` defines standalone custom subagents with their own instructions.
 
 Open the project in a trusted state so Codex loads the local `.codex/` config.
 
@@ -60,6 +59,7 @@ Ask Codex to use the `fullstack-webapp` skill, or use a natural-language request
 
 ## Validation Checklist
 
-- Confirm every role in `.codex/config.toml` points to a real `.toml` file.
-- Confirm every role `.toml` points to a real `.md` instructions file.
+- Confirm every custom agent TOML defines `name`.
+- Confirm every custom agent TOML defines `description`.
+- Confirm every custom agent TOML defines `developer_instructions`.
 - Remove any unresolved placeholders before considering the harness complete.
