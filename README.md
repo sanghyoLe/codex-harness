@@ -309,6 +309,8 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
   --target .
 ```
 
+Add `"language": "ko"` to `spec.json` if you want the built-in template copy rendered in Korean. If omitted, the default remains English (`"en"`).
+
 The scaffold script creates:
 
 - `AGENTS.md`

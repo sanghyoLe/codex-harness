@@ -55,11 +55,19 @@ python3 plugins/harness/skills/harness/scripts/find_reference_harness.py "code r
 - 프로젝트/도메인
 - 핵심 작업 유형: 생성, 편집, 분석, 검증, 연구, 구현
 - 최종 산출물 형식
+- 사용자 요청 언어와 최종 산출물 기본 언어
 - 순차 처리인지, 병렬 처리인지, 리뷰 중심인지, 동적 라우팅인지
 - 외부 검색이 필요한지
 - 기존 `AGENTS.md`, `.agents`, `.codex`와 충돌 가능성이 있는지
 
 요청이 다소 모호해도 실용적인 기본값을 추론해서 진행한다. 하네스 구조가 크게 달라질 정도의 공백만 질문한다.
+
+언어 기본값 규칙:
+
+- 사용자의 요청이 한국어 중심이면 새 하네스 spec에 반드시 `"language": "ko"`를 넣는다.
+- 사용자의 요청이 영어 중심이거나 대상 프로젝트가 영어 문서화를 명시적으로 요구하면 `"language": "en"`을 쓴다.
+- 사용자가 언어를 명시하면 그 지시를 우선한다.
+- `"language"`는 기본 템플릿 골격의 언어를 결정한다. `summary`, `description`, `phases`, `focus_areas` 같은 spec 본문도 같은 언어로 직접 작성한다.
 
 ### Phase 2: 협업 패턴 설계
 
@@ -79,6 +87,12 @@ python3 plugins/harness/skills/harness/scripts/find_reference_harness.py "code r
 - 중간 결과에 따라 라우팅이 달라지면 `supervisor`
 - 역할이 1~2개로 충분하면 과도한 팀 구조를 만들지 않는다
 
+레퍼런스 선택 언어 규칙:
+
+- 한국어 요청이면 `codex-harness-100/ko/*` 레퍼런스를 먼저 찾는다.
+- 영어 요청이거나 영어 중심 프로젝트면 `codex-harness-100/en/*`를 우선한다.
+- 구조는 다른 언어 레퍼런스를 참고해도 되지만, 최종 산출물 문체와 spec 언어는 선택한 기본 언어와 맞춘다.
+
 ### Phase 3: 하네스 스펙 정의
 
 파일을 쓰기 전에 최소한 아래 항목을 먼저 정리한다:
@@ -86,6 +100,7 @@ python3 plugins/harness/skills/harness/scripts/find_reference_harness.py "code r
 - 하네스 slug
 - 하네스 제목
 - 한 줄 요약
+- spec `language`
 - 협업 패턴
 - 오케스트레이터 스킬 이름과 트리거 설명
 - 서브에이전트 2~6개
@@ -222,19 +237,20 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
 ```json
 {
   "slug": "code-reviewer",
-  "title": "Code Reviewer Harness",
-  "summary": "Parallel code review harness for architecture, security, performance, and style.",
+  "language": "ko",
+  "title": "코드 리뷰 하네스",
+  "summary": "아키텍처, 보안, 성능, 스타일을 병렬로 검토하는 코드 리뷰 하네스.",
   "collaboration_pattern": "fan-out/fan-in",
   "workspace_root": "_workspace",
   "orchestrator": {
     "name": "code-reviewer",
-    "description": "Use when the user asks for a broad code review harness."
+    "description": "넓은 범위의 코드 리뷰 하네스나 역할 기반 리뷰 팀이 필요할 때 사용한다."
   },
   "agents": [
     {
       "name": "security-analyst",
-      "role_title": "Security Analyst",
-      "description": "Find exploitable issues, insecure defaults, and trust-boundary violations."
+      "role_title": "보안 분석가",
+      "description": "악용 가능한 취약점, 위험한 기본값, 신뢰 경계 위반을 찾는다."
     }
   ],
   "reference_harnesses": [
@@ -246,4 +262,8 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
 }
 ```
 
-스캐폴딩 후에는 생성된 일반 템플릿을 현재 프로젝트의 실제 도메인 언어로 반드시 치환한다.
+중요:
+
+- 사용자가 한국어로 "codex-harness 사용해서 ~~~ 하네스 만들어줘"라고 요청하면, 명시가 없어도 한국어 요청으로 간주하고 `spec.language = "ko"`를 기본값으로 사용한다.
+- 다만 대상 프로젝트가 영문 공개 문서/OSS 템플릿/영문 팀 규약을 명시하면 그 근거를 설명하고 `en`으로 유지할 수 있다.
+- 스캐폴딩 후에는 생성된 일반 템플릿을 현재 프로젝트의 실제 도메인 언어로 반드시 치환한다.
