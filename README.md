@@ -3,10 +3,10 @@
 **Harness Architect for Codex**  
 Project-specific harness generator for `AGENTS.md`, repo-local skills, and reusable Codex subagent roles.
 
-**English** | [한국어](README_KO.md)  
-[Publishing Guide](PUBLISHING.md) | [공개 배포 가이드](PUBLISHING_KO.md)
+**English** | [Korean](README_KO.md)  
+[Publishing Guide](PUBLISHING.md) | [Korean Publishing Guide](PUBLISHING_KO.md)
 
-This repository adapts the original Claude-oriented `harness` project into a Codex-native plugin and meta skill. The goal is the same: when a user says "하네스 구성해줘" or "build a harness for this project", Codex should analyze the domain, choose a coordination pattern, define specialist roles, and scaffold a reusable harness for the current repository.
+This repository adapts the original Claude-oriented `harness` project into a Codex-native plugin and meta skill. The goal is the same: when a user says "set up a harness" or "build a harness for this project", Codex should analyze the domain, choose a coordination pattern, define specialist roles, and scaffold a reusable harness for the current repository.
 
 ## Origin
 
@@ -23,7 +23,7 @@ Tell Codex to inspect this repo, look at the included examples, and generate a h
 Example prompt:
 
 ```text
-codex-harness를 참고해서 일본 여행 길라잡이 웹 서비스 하네스 만들어줘
+Use `codex-harness` as a reference and build a harness for a web service that helps users plan trips in Japan.
 ```
 
 That is the core pattern: ask Codex to use `codex-harness` as the reference, then describe the product or workflow you want the new harness to support.
@@ -117,6 +117,8 @@ See [PUBLISHING.md](PUBLISHING.md) for full examples and file contents.
 - optional supporting skills
 - reusable subagent role configs under `.codex/agents/`
 - Codex configuration in `.codex/config.toml`
+
+Generated harnesses commonly also use a repo-local `_workspace/` directory for intermediate artifacts, handoff notes, and per-run working files. That folder is local scratch state for the current repository, not a source directory or shared package, so in most projects it should be treated as disposable and added to `.gitignore`.
 
 When the sibling repository `/Users/isanghyo/Desktop/harness/codex-harness-100` is available, this plugin should treat that catalog as its primary reference library instead of inventing structures from scratch.
 
@@ -248,11 +250,11 @@ codex-harness/
 Trigger the plugin or skill with prompts like:
 
 ```text
-하네스 구성해줘
-이 프로젝트에 맞는 에이전트 팀 설계해줘
-research harness 만들어줘
-코드 리뷰 하네스 만들어줘
-fullstack-webapp 하네스 설계해줘
+Set up a harness for this repository.
+Design an agent team for this project.
+Build a research harness.
+Build a code review harness.
+Design a fullstack webapp harness.
 ```
 
 ### Collaboration Patterns
@@ -344,15 +346,15 @@ from multiple angles, cross-check sources, and produce a structured report.
 **Website Development**
 
 ```text
-풀스택 웹사이트 개발 하네스를 구성해줘. 디자인, 프론트엔드, 백엔드, QA를
-와이어프레임부터 배포까지 조율하는 구조가 필요해.
+Build a harness for full-stack website development. I need a structure that
+coordinates design, frontend, backend, and QA from wireframes through deployment.
 ```
 
 **Code Review**
 
 ```text
-종합 코드 리뷰 하네스를 구성해줘. 아키텍처, 보안, 성능, 코드 스타일을 병렬로
-점검하고 마지막에 결과를 하나의 보고서로 통합해줘.
+Build a comprehensive code review harness. It should check architecture,
+security, performance, and code style in parallel, then merge the results into one report.
 ```
 
 **Content Production**

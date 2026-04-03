@@ -120,6 +120,8 @@ Personal marketplace 파일 예시:
 - `.codex/agents/` 아래의 서브에이전트 역할 설정
 - `.codex/config.toml`
 
+생성된 하네스는 중간 산출물, handoff 메모, 실행 단위 작업 파일을 위해 저장소 로컬 `_workspace/` 디렉터리를 함께 쓰는 경우가 많다. 이 폴더는 현재 저장소에서만 쓰는 로컬 scratch 영역이지 소스 디렉터리나 공유 패키지가 아니므로, 대부분의 프로젝트에서는 재생성 가능한 대상으로 보고 `.gitignore`에 넣는 편이 맞다.
+
 기본 sibling 경로인 `/Users/isanghyo/Desktop/harness/codex-harness-100`이 있으면, 이 저장소는 그 레퍼런스 라이브러리를 우선적으로 참고해야 한다.
 
 ## 핵심 기능
