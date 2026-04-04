@@ -9,6 +9,8 @@ import json
 import re
 from pathlib import Path
 
+ALLOWED_WEB_SEARCH_VALUES = {"cached", "live", "disabled"}
+
 
 TRANSLATIONS = {
     "en": {
@@ -180,6 +182,14 @@ def t(spec: dict, key: str, **kwargs) -> str:
     return template.format(**kwargs) if kwargs else template
 
 
+def normalize_web_search(value, *, context: str) -> str:
+    normalized = str(value or "disabled").strip().lower()
+    if normalized not in ALLOWED_WEB_SEARCH_VALUES:
+        allowed = ", ".join(f'"{item}"' for item in sorted(ALLOWED_WEB_SEARCH_VALUES))
+        raise ValueError(f"{context} must be one of {allowed}; got {value!r}")
+    return normalized
+
+
 def normalize_spec(raw_spec: dict) -> dict:
     spec = copy.deepcopy(raw_spec)
     spec["slug"] = spec.get("slug") or slugify(spec["title"])
@@ -203,6 +213,11 @@ def normalize_spec(raw_spec: dict) -> dict:
         agent = dict(item)
         agent["name"] = slugify(agent["name"])
         agent["language"] = spec["language"]
+        if "web_search" in agent:
+            agent["web_search"] = normalize_web_search(
+                agent.get("web_search"),
+                context=f'agent "{agent["name"]}" web_search',
+            )
         agents.append(agent)
     spec["agents"] = agents
 
@@ -215,7 +230,7 @@ def normalize_spec(raw_spec: dict) -> dict:
 
     spec["max_threads"] = spec.get("max_threads", max(len(spec["agents"]) + 1, 2))
     spec["max_depth"] = spec.get("max_depth", 1)
-    spec["web_search"] = spec.get("web_search", "disabled")
+    spec["web_search"] = normalize_web_search(spec.get("web_search"), context="spec web_search")
     return spec
 
 

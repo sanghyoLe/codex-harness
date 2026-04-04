@@ -189,7 +189,7 @@ rg -n "\\[TODO\\]|developer_instructions|^name =|^description =" AGENTS.md .agen
 
 반드시 포함:
 
-- `web_search` 설정
+- `web_search` 설정 (`cached`, `live`, `disabled` 중 하나)
 - `multi_agent` 여부
 - `[agents]` 전역 설정
 

@@ -312,6 +312,7 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
 ```
 
 `spec.json`에 `"language": "ko"`를 넣으면 기본 템플릿 문구가 한국어로 생성된다. 지정하지 않으면 기존처럼 영어(`"en"`)가 기본값이다.
+`"web_search"`를 넣는다면 `"cached"`, `"live"`, `"disabled"` 중 하나만 사용해야 한다. 지정하지 않으면 기본값은 `"disabled"`다.
 
 생성되는 항목:
 
