@@ -164,7 +164,7 @@
   ],
   "reference_harnesses": [
     {
-      "path": "/Users/isanghyo/Desktop/harness/codex-harness-100/ko/16-fullstack-webapp",
+      "path": "../codex-harness-100/ko/16-fullstack-webapp",
       "reason": "Closest existing Codex harness for multi-role website delivery with architecture-first sequencing."
     }
   ]

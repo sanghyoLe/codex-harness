@@ -156,7 +156,7 @@
   ],
   "reference_harnesses": [
     {
-      "path": "/Users/isanghyo/Desktop/harness/codex-harness-100/ko/21-code-reviewer",
+      "path": "../codex-harness-100/ko/21-code-reviewer",
       "reason": "Closest existing Codex review harness with parallel specialist roles and a synthesis step."
     }
   ]

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Harness Architect for Codex. Designs project-specific harnesses, defines reusable subagent roles, and generates repo-local skills using codex-harness-100 as a reference library when available.",
   "author": {
-    "name": "isanghyo",
+    "name": "revfactory",
     "email": "noreply@example.com",
     "url": "https://github.com/revfactory"
   },

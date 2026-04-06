@@ -4,11 +4,13 @@
 
 ## Expected Location
 
-By default, assume the library exists at:
+The bundled search script automatically checks these locations in order:
 
-`/Users/isanghyo/Desktop/harness/codex-harness-100`
+1. Sibling directory of the `codex-harness` repo root (e.g. `../codex-harness-100`)
+2. `./codex-harness-100` relative to the current working directory
+3. `~/.codex/codex-harness-100`
 
-The bundled search script also falls back to a few common sibling locations automatically. If the library exists somewhere else, pass `--root` explicitly.
+If the library exists somewhere else, pass `--root <path>` explicitly.
 
 ## How To Use It
 

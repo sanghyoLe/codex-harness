@@ -164,8 +164,13 @@ def slugify(value: str) -> str:
 
 
 def read_spec(path: Path) -> dict:
+    if not path.exists():
+        raise SystemExit(f"Error: spec file not found: {path}")
     with path.open() as handle:
-        return json.load(handle)
+        try:
+            return json.load(handle)
+        except json.JSONDecodeError as exc:
+            raise SystemExit(f"Error: invalid JSON in {path}: {exc}") from exc
 
 
 def ensure_list(value):
@@ -436,7 +441,7 @@ def render_agent_toml(agent: dict) -> str:
     instructions = render_agent_instructions(agent).replace('"""', '\\"\\"\\"')
     lines = [
         f'name = "{agent["name"]}"',
-        f'description = "{agent["description"].replace(chr(34), chr(39))}"',
+        f'description = "{agent["description"].replace(chr(34), chr(92) + chr(34))}"',
     ]
 
     nickname_candidates = ensure_list(agent.get("nickname_candidates"))
@@ -453,7 +458,7 @@ def render_agent_toml(agent: dict) -> str:
     ]
     for key in passthrough_keys:
         if key in agent:
-            value = str(agent[key]).replace(chr(34), chr(39))
+            value = str(agent[key]).replace(chr(34), chr(92) + chr(34))
             lines.append(f'{key} = "{value}"')
 
     lines.extend(

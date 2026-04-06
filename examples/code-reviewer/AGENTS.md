@@ -13,7 +13,7 @@ Open the project in a trusted state so Codex loads the local `.codex/` config.
 
 ## Reference Lineage
 
-- `/Users/isanghyo/Desktop/harness/codex-harness-100/ko/21-code-reviewer`: Closest existing Codex review harness with parallel specialist roles and a synthesis step.
+- `../codex-harness-100/ko/21-code-reviewer`: Closest existing Codex review harness with parallel specialist roles and a synthesis step.
 
 ## Collaboration Pattern
 

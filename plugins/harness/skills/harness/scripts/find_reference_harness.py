@@ -9,11 +9,19 @@ import re
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
+def _find_repo_root() -> Path:
+    """Walk up from SCRIPT_DIR to find the codex-harness repo root (contains plugins/)."""
+    current = SCRIPT_DIR
+    for _ in range(10):
+        if (current / "plugins").is_dir():
+            return current
+        current = current.parent
+    return SCRIPT_DIR
+
 CANDIDATE_ROOTS = [
-    Path("/Users/isanghyo/Desktop/harness/codex-harness-100"),
-    Path("/Users/isanghyo/Desktop/codex-harness-100"),
-    SCRIPT_DIR.parents[5] / "codex-harness-100",
+    _find_repo_root().parent / "codex-harness-100",
     Path.cwd() / "codex-harness-100",
+    Path.home() / ".codex" / "codex-harness-100",
 ]
 
 

@@ -120,7 +120,7 @@ See [PUBLISHING.md](PUBLISHING.md) for full examples and file contents.
 
 Generated harnesses commonly also use a repo-local `_workspace/` directory for intermediate artifacts, handoff notes, and per-run working files. That folder is local scratch state for the current repository, not a source directory or shared package, so in most projects it should be treated as disposable and added to `.gitignore`.
 
-When the sibling repository `/Users/isanghyo/Desktop/harness/codex-harness-100` is available, this plugin should treat that catalog as its primary reference library instead of inventing structures from scratch.
+When the sibling repository `codex-harness-100` is available (see the search script for candidate paths), this plugin should treat that catalog as its primary reference library instead of inventing structures from scratch.
 
 ## Key Features
 

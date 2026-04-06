@@ -13,7 +13,7 @@ Open the project in a trusted state so Codex loads the local `.codex/` config.
 
 ## Reference Lineage
 
-- `/Users/isanghyo/Desktop/harness/codex-harness-100/ko/16-fullstack-webapp`: Closest existing Codex harness for multi-role website delivery with architecture-first sequencing.
+- `../codex-harness-100/ko/16-fullstack-webapp`: Closest existing Codex harness for multi-role website delivery with architecture-first sequencing.
 
 ## Collaboration Pattern
 

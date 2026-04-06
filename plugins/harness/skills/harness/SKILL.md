@@ -31,7 +31,7 @@ Codex용 프로젝트 하네스를 설계하고 스캐폴드하는 메타 스킬
 
 ### Phase 0: 레퍼런스 라이브러리 검색
 
-기본적으로 sibling 경로의 `codex-harness-100`을 1차 레퍼런스로 사용한다. 일반적인 기본 위치는 `/Users/isanghyo/Desktop/harness/codex-harness-100`이다. 처음부터 팀 구조를 상상으로 만들지 말고, 먼저 가까운 사례를 찾는다.
+기본적으로 sibling 경로의 `codex-harness-100`을 1차 레퍼런스로 사용한다. 경로는 `find_reference_harness.py`가 자동으로 탐색한다. 처음부터 팀 구조를 상상으로 만들지 말고, 먼저 가까운 사례를 찾는다.
 
 가능하면 아래 스크립트를 먼저 실행한다:
 
@@ -264,7 +264,7 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
   ],
   "reference_harnesses": [
     {
-      "path": "/Users/isanghyo/Desktop/harness/codex-harness-100/ko/21-code-reviewer",
+      "path": "<codex-harness-100>/ko/21-code-reviewer",
       "reason": "Closest existing code review harness."
     }
   ]
