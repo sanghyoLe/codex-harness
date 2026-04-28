@@ -15,9 +15,19 @@ Open the project in a trusted state so Codex loads the local `.codex/` config.
 
 - `../codex-harness-100/ko/16-fullstack-webapp`: Closest existing Codex harness for multi-role website delivery with architecture-first sequencing.
 
+## Harness Pointer
+
+This repository has a Codex-native harness. Use the orchestrator skill below as the entry point.
+- Agent source of truth: `.codex/agents/`
+- Skill source of truth: `.agents/skills/`
+
 ## Collaboration Pattern
 
 - `pipeline`
+
+## Execution Mode
+
+- `codex-custom-subagents`
 
 ## Skills
 
@@ -63,3 +73,9 @@ Ask Codex to use the `fullstack-webapp` skill, or use a natural-language request
 - Confirm every custom agent TOML defines `description`.
 - Confirm every custom agent TOML defines `developer_instructions`.
 - Remove any unresolved placeholders before considering the harness complete.
+
+## Change History
+
+| Date | Change | Target | Reason |
+|------|--------|--------|--------|
+| scaffolded | Initial harness scaffold | AGENTS.md, .agents, .codex | Generated from harness spec |

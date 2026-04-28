@@ -1,12 +1,13 @@
 # Codex Harness
 
-**Harness Architect for Codex**  
-Project-specific harness generator for `AGENTS.md`, repo-local skills, and reusable Codex subagent roles.
+**Team-Architecture Factory for Codex**
+
+Project-specific harness generator for `AGENTS.md` pointers, repo-local skills, reusable Codex subagent roles, validation gates, and harness evolution history.
 
 **English** | [Korean](README_KO.md)  
 [Publishing Guide](PUBLISHING.md) | [Korean Publishing Guide](PUBLISHING_KO.md)
 
-This repository adapts the original Claude-oriented `harness` project into a Codex-native plugin and meta skill. The goal is the same: when a user says "set up a harness" or "build a harness for this project", Codex should analyze the domain, choose a coordination pattern, define specialist roles, and scaffold a reusable harness for the current repository.
+This repository adapts the original Claude-oriented `harness` project into a Codex-native plugin and meta skill. The goal is the same: when a user says "set up a harness" or "build a harness for this project", Codex should analyze the domain, choose a team-architecture pattern, define specialist roles, and scaffold a reusable harness for the current repository.
 
 ## Origin
 
@@ -118,32 +119,39 @@ See [PUBLISHING.md](PUBLISHING.md) for full examples and file contents.
 - standalone custom subagent files under `.codex/agents/`
 - Codex configuration in `.codex/config.toml`
 
-Generated harnesses commonly also use a repo-local `_workspace/` directory for intermediate artifacts, handoff notes, and per-run working files. That folder is local scratch state for the current repository, not a source directory or shared package, so in most projects it should be treated as disposable and added to `.gitignore`.
+Generated harnesses commonly also use a repo-local `_workspace/` directory for intermediate artifacts, handoff notes, per-run working files, and harness change history. That folder is local scratch state for the current repository, not a source directory or shared package, so in most projects it should be treated as disposable and added to `.gitignore`.
+
+`AGENTS.md` is now treated as a pointer, not the source of truth. The detailed agent and skill instructions live in `.codex/agents/` and `.agents/skills/`; `AGENTS.md` should keep trigger rules, key paths, and change history short enough to stay useful across sessions.
 
 When the sibling repository `codex-harness-100` is available (see the search script for candidate paths), this plugin should treat that catalog as its primary reference library instead of inventing structures from scratch.
 
 ## Key Features
 
-- **Harness Architecture Design**: choose among pipeline, fan-out/fan-in, expert pool, generate-critique, supervisor, and hierarchical delegation
+- **Team Architecture Design**: choose among pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation, and hybrid execution
+- **Existing Harness Audit**: detect whether the request is a new build, extension, or maintenance/sync task before writing files
 - **Reference-First Generation**: search `codex-harness-100`, inspect nearby examples, then adapt deliberately
 - **Codex-Native Output**: generate `AGENTS.md`, repo-local skills, and `.codex` subagent configs rather than Claude-only `.claude/` files
 - **Reusable Scaffolding**: bundled scripts help search references and scaffold a new harness from a JSON spec
-- **Validation Mindset**: generated harnesses include role boundaries, workflow phases, output expectations, and checks for unresolved placeholders
+- **Validation and Evolution**: generated harnesses include role boundaries, workflow phases, output expectations, checks for unresolved placeholders, and a feedback loop for future updates
 
 ## Workflow
 
 ```text
+Phase 0: Existing Harness Audit + Reference Search
+    ↓
 Phase 1: Domain Analysis
     ↓
-Phase 2: Collaboration Pattern Design
+Phase 2: Team Architecture Design
     ↓
-Phase 3: Subagent Role Definition (.codex/agents/)
+Phase 3: Harness Spec Definition
     ↓
-Phase 4: Skill Generation (.agents/skills/)
+Phase 4: Subagent Role Definition (.codex/agents/)
     ↓
-Phase 5: Orchestration & Workspace Contract
+Phase 5: Skill Generation + Orchestration
     ↓
-Phase 6: Validation & Refinement
+Phase 6: Validation
+    ↓
+Phase 7: Harness Evolution / Maintenance
 ```
 
 ## Relationship To `codex-harness-100`
@@ -264,9 +272,10 @@ Design a fullstack webapp harness.
 | Pipeline | Sequential dependent stages |
 | Fan-out / Fan-in | Parallel analysis followed by synthesis |
 | Expert Pool | Conditional specialist routing |
-| Generate-Critique | Producer plus reviewer |
+| Producer-Reviewer | Producer plus reviewer |
 | Supervisor | Dynamic orchestration based on findings |
 | Hierarchical Delegation | Large, multi-layer work trees |
+| Hybrid | Different execution modes by phase |
 
 ### Typical Output
 

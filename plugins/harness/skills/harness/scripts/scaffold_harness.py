@@ -22,6 +22,7 @@ TRANSLATIONS = {
         "trusted_state": "Open the project in a trusted state so Codex loads the local `.codex/` config.",
         "reference_lineage": "## Reference Lineage",
         "collaboration_pattern": "## Collaboration Pattern",
+        "execution_mode": "## Execution Mode",
         "skills": "## Skills",
         "subagent_roles": "## Subagent Roles",
         "usage": "## Usage",
@@ -32,6 +33,13 @@ TRANSLATIONS = {
         "mode_matrix": "## Mode Matrix",
         "orchestrator_only": "`orchestrator only`",
         "validation_checklist": "## Validation Checklist",
+        "harness_pointer": "## Harness Pointer",
+        "pointer_intro": "This repository has a Codex-native harness. Use the orchestrator skill below as the entry point.",
+        "agent_source": "- Agent source of truth: `.codex/agents/`",
+        "skill_source": "- Skill source of truth: `.agents/skills/`",
+        "change_history": "## Change History",
+        "change_history_header": "| Date | Change | Target | Reason |\n|------|--------|--------|--------|",
+        "initial_change": "| scaffolded | Initial harness scaffold | AGENTS.md, .agents, .codex | Generated from harness spec |",
         "check_toml_name": "- Confirm every custom agent TOML defines `name`.",
         "check_toml_description": "- Confirm every custom agent TOML defines `description`.",
         "check_toml_instructions": "- Confirm every custom agent TOML defines `developer_instructions`.",
@@ -92,6 +100,7 @@ TRANSLATIONS = {
         "trusted_state": "Codex가 로컬 `.codex/` 설정을 읽도록 프로젝트를 trusted 상태로 연다.",
         "reference_lineage": "## 참고 하네스 계보",
         "collaboration_pattern": "## 협업 패턴",
+        "execution_mode": "## 실행 모드",
         "skills": "## 스킬",
         "subagent_roles": "## 서브에이전트 역할",
         "usage": "## 사용법",
@@ -102,6 +111,13 @@ TRANSLATIONS = {
         "mode_matrix": "## 모드 매트릭스",
         "orchestrator_only": "`오케스트레이터만`",
         "validation_checklist": "## 검증 체크리스트",
+        "harness_pointer": "## 하네스 포인터",
+        "pointer_intro": "이 저장소에는 Codex-native 하네스가 있다. 아래 오케스트레이터 스킬을 진입점으로 사용한다.",
+        "agent_source": "- 에이전트 단일 출처: `.codex/agents/`",
+        "skill_source": "- 스킬 단일 출처: `.agents/skills/`",
+        "change_history": "## 변경 이력",
+        "change_history_header": "| 날짜 | 변경 내용 | 대상 | 사유 |\n|------|-----------|------|------|",
+        "initial_change": "| scaffolded | 초기 하네스 생성 | AGENTS.md, .agents, .codex | harness spec 기반 생성 |",
         "check_toml_name": "- 각 커스텀 에이전트 TOML에 `name`이 있는지 확인한다.",
         "check_toml_description": "- 각 커스텀 에이전트 TOML에 `description`이 있는지 확인한다.",
         "check_toml_instructions": "- 각 커스텀 에이전트 TOML에 `developer_instructions`가 있는지 확인한다.",
@@ -201,6 +217,7 @@ def normalize_spec(raw_spec: dict) -> dict:
     spec["language"] = get_language(spec)
     spec["workspace_root"] = spec.get("workspace_root", "_workspace")
     spec["collaboration_pattern"] = spec.get("collaboration_pattern", "supervisor")
+    spec["execution_mode"] = spec.get("execution_mode", "codex-custom-subagents")
 
     orchestrator = dict(spec["orchestrator"])
     orchestrator["name"] = slugify(orchestrator["name"])
@@ -249,6 +266,7 @@ def render_agents_md(spec: dict) -> str:
     web_search = spec.get("web_search", "disabled")
     references = ensure_list(spec.get("reference_harnesses"))
     pattern = spec.get("collaboration_pattern", "supervisor")
+    execution_mode = spec.get("execution_mode", "codex-custom-subagents")
     workspace_root = spec.get("workspace_root", "_workspace")
     modes = ensure_list(spec.get("mode_matrix"))
 
@@ -276,7 +294,10 @@ def render_agents_md(spec: dict) -> str:
             lines.append(f"- `{path}`{': ' + reason if reason else ''}")
         lines.append("")
 
+    lines.extend([t(spec, "harness_pointer"), "", t(spec, "pointer_intro")])
+    lines.extend([t(spec, "agent_source"), t(spec, "skill_source"), ""])
     lines.extend([t(spec, "collaboration_pattern"), "", f"- `{pattern}`", ""])
+    lines.extend([t(spec, "execution_mode"), "", f"- `{execution_mode}`", ""])
     lines.extend([t(spec, "skills"), ""])
 
     for skill in skills:
@@ -323,6 +344,11 @@ def render_agents_md(spec: dict) -> str:
             t(spec, "check_toml_description"),
             t(spec, "check_toml_instructions"),
             t(spec, "remove_placeholders"),
+            "",
+            t(spec, "change_history"),
+            "",
+            t(spec, "change_history_header"),
+            t(spec, "initial_change"),
         ]
     )
 
@@ -485,6 +511,8 @@ def render_skill_md(skill: dict, title: str, summary: str, is_orchestrator: bool
 
     if is_orchestrator:
         lines = [header.rstrip(), "", summary, ""]
+        execution_mode = spec.get("execution_mode", "codex-custom-subagents")
+        lines.extend([t(spec, "execution_mode"), "", f"- `{execution_mode}`", ""])
 
         activation_examples = ensure_list(spec.get("activation_examples"))
         if activation_examples:

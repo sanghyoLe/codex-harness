@@ -1,7 +1,7 @@
 {
   "name": "harness",
-  "version": "0.1.0",
-  "description": "Harness Architect for Codex. Designs project-specific harnesses, defines reusable subagent roles, and generates repo-local skills using codex-harness-100 as a reference library when available.",
+  "version": "1.2.1",
+  "description": "Team-architecture factory for Codex. Turns a domain description into a Codex-native harness with AGENTS.md pointers, repo-local skills, custom subagent roles, validation gates, and evolution history.",
   "author": {
     "name": "revfactory",
     "email": "noreply@example.com",
@@ -13,15 +13,25 @@
   "keywords": [
     "codex",
     "harness",
+    "harness-factory",
+    "team-architecture-factory",
     "multi-agent",
+    "agent-scaffolding",
     "skills",
-    "scaffolding"
+    "scaffolding",
+    "pipeline",
+    "fan-out",
+    "fan-in",
+    "expert-pool",
+    "producer-reviewer",
+    "supervisor",
+    "hierarchical-delegation"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Harness",
-    "shortDescription": "Design and scaffold Codex-native project harnesses",
-    "longDescription": "Analyze the current repository, choose a collaboration pattern, define specialist roles, and scaffold AGENTS.md, repo-local skills, and Codex subagent configs. Reuse codex-harness-100 patterns when a close reference exists.",
+    "shortDescription": "Design and evolve Codex-native project harnesses",
+    "longDescription": "Analyze the current repository, choose one of six team-architecture patterns, define specialist roles, and scaffold AGENTS.md pointers, repo-local skills, and Codex custom subagent configs. Includes existing-harness audit, follow-up support, validation, and evolution history.",
     "developerName": "revfactory",
     "category": "Productivity",
     "capabilities": [
@@ -34,6 +44,7 @@
     "defaultPrompt": [
       "하네스 구성해줘",
       "이 프로젝트에 맞는 에이전트 팀 설계해줘",
+      "하네스 점검하고 에이전트/스킬 동기화해줘",
       "코드 리뷰 하네스 만들어줘",
       "Build a harness for this project"
     ],

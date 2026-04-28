@@ -1,12 +1,13 @@
 # Codex Harness
 
-**Codex용 Harness Architect**  
-`AGENTS.md`, 저장소 로컬 스킬, 재사용 가능한 Codex 서브에이전트 역할 구성을 생성하는 프로젝트 맞춤형 하네스 생성기.
+**Codex용 Team-Architecture Factory**
+
+`AGENTS.md` 포인터, 저장소 로컬 스킬, 재사용 가능한 Codex 서브에이전트 역할, 검증 게이트, 하네스 변경 이력을 생성하는 프로젝트 맞춤형 하네스 생성기.
 
 [English](README.md) | **한국어**  
 [Publishing Guide](PUBLISHING.md) | [공개 배포 가이드](PUBLISHING_KO.md)
 
-이 저장소는 Claude용 원본 `harness` 프로젝트를 Codex-native 플러그인과 메타 스킬로 옮긴 것이다. 목표는 같다. 사용자가 "하네스 구성해줘" 또는 "이 프로젝트에 맞는 harness 만들어줘"라고 요청하면, Codex가 도메인을 분석하고 협업 패턴을 고른 뒤, 전문 역할과 오케스트레이터 스킬을 포함한 재사용 가능한 로컬 하네스를 생성하게 만드는 것이다.
+이 저장소는 Claude용 원본 `harness` 프로젝트를 Codex-native 플러그인과 메타 스킬로 옮긴 것이다. 목표는 같다. 사용자가 "하네스 구성해줘" 또는 "이 프로젝트에 맞는 harness 만들어줘"라고 요청하면, Codex가 도메인을 분석하고 팀 아키텍처 패턴을 고른 뒤, 전문 역할과 오케스트레이터 스킬을 포함한 재사용 가능한 로컬 하네스를 생성하게 만드는 것이다.
 
 ## 원본 프로젝트
 
@@ -120,32 +121,39 @@ Personal marketplace 파일 예시:
 - `.codex/agents/` 아래의 standalone 서브에이전트 파일
 - `.codex/config.toml`
 
-생성된 하네스는 중간 산출물, handoff 메모, 실행 단위 작업 파일을 위해 저장소 로컬 `_workspace/` 디렉터리를 함께 쓰는 경우가 많다. 이 폴더는 현재 저장소에서만 쓰는 로컬 scratch 영역이지 소스 디렉터리나 공유 패키지가 아니므로, 대부분의 프로젝트에서는 재생성 가능한 대상으로 보고 `.gitignore`에 넣는 편이 맞다.
+생성된 하네스는 중간 산출물, handoff 메모, 실행 단위 작업 파일, 하네스 변경 이력을 위해 저장소 로컬 `_workspace/` 디렉터리를 함께 쓰는 경우가 많다. 이 폴더는 현재 저장소에서만 쓰는 로컬 scratch 영역이지 소스 디렉터리나 공유 패키지가 아니므로, 대부분의 프로젝트에서는 재생성 가능한 대상으로 보고 `.gitignore`에 넣는 편이 맞다.
+
+`AGENTS.md`는 이제 단일 출처가 아니라 포인터로 다룬다. 에이전트와 스킬의 상세 지시는 `.codex/agents/`와 `.agents/skills/`에 두고, `AGENTS.md`에는 트리거 규칙, 주요 경로, 변경 이력만 짧게 남긴다.
 
 sibling 경로에 `codex-harness-100`이 있으면(검색 스크립트가 자동 탐색), 이 저장소는 그 레퍼런스 라이브러리를 우선적으로 참고해야 한다.
 
 ## 핵심 기능
 
-- **하네스 아키텍처 설계**: pipeline, fan-out/fan-in, expert pool, generate-critique, supervisor, hierarchical delegation 패턴 선택
+- **팀 아키텍처 설계**: pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation, hybrid 실행 패턴 선택
+- **기존 하네스 감사**: 파일을 쓰기 전에 신규 구축/기존 확장/운영·동기화 요청인지 판별
 - **Reference-First 생성**: `codex-harness-100`에서 가까운 예시를 찾고, 그대로 복사하지 않고 구조만 적응
 - **Codex-Native 산출물**: Claude 전용 `.claude/` 대신 `AGENTS.md`, `.agents`, `.codex` 구조 생성
 - **재사용 가능한 스캐폴딩**: 레퍼런스 검색과 JSON spec 기반 생성 스크립트 포함
-- **검증 중심 구성**: 역할 경계, workflow, 출력 계약, placeholder 정리 기준까지 포함
+- **검증과 진화**: 역할 경계, workflow, 출력 계약, placeholder 정리 기준, 후속 피드백 반영 루프 포함
 
 ## 워크플로우
 
 ```text
+Phase 0: 기존 하네스 감사 + 레퍼런스 검색
+    ↓
 Phase 1: 도메인 분석
     ↓
-Phase 2: 협업 패턴 설계
+Phase 2: 팀 아키텍처 설계
     ↓
-Phase 3: 서브에이전트 역할 정의 (.codex/agents/)
+Phase 3: 하네스 스펙 정의
     ↓
-Phase 4: 스킬 생성 (.agents/skills/)
+Phase 4: 서브에이전트 역할 정의 (.codex/agents/)
     ↓
-Phase 5: 오케스트레이션 & 워크스페이스 계약
+Phase 5: 스킬 생성 + 오케스트레이션
     ↓
-Phase 6: 검증 & 정제
+Phase 6: 검증
+    ↓
+Phase 7: 하네스 진화 / 운영
 ```
 
 ## `codex-harness-100`과의 관계
@@ -266,9 +274,10 @@ fullstack-webapp 하네스 설계해줘
 | Pipeline | 순차 의존 단계 |
 | Fan-out / Fan-in | 병렬 분석 후 종합 |
 | Expert Pool | 조건부 전문가 호출 |
-| Generate-Critique | 생성자 + 검수자 |
+| Producer-Reviewer | 생성자 + 검수자 |
 | Supervisor | 중간 결과에 따른 동적 라우팅 |
 | Hierarchical Delegation | 큰 범위의 다층 workstream |
+| Hybrid | Phase별 실행 모드 혼합 |
 
 ### 전형적인 산출물
 

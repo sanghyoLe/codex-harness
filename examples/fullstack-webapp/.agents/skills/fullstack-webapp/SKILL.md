@@ -7,6 +7,10 @@ description: "Use when the user asks for a fullstack web app harness, a role-bas
 
 Pipeline-oriented fullstack delivery harness for requirements, architecture, frontend, backend, QA, and deployment preparation.
 
+## Execution Mode
+
+- `codex-custom-subagents`
+
 ## Activation Examples
 
 - `풀스택 웹앱 하네스 구성해줘`

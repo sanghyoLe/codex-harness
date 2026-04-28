@@ -7,6 +7,10 @@ description: "Use when the user asks for a broad code review harness, PR review 
 
 Parallel code review harness for architecture, security, performance, and style, with a synthesis reviewer that merges findings into a single decision.
 
+## Execution Mode
+
+- `codex-custom-subagents`
+
 ## Activation Examples
 
 - `코드 리뷰 하네스 만들어줘`

@@ -15,9 +15,19 @@ Open the project in a trusted state so Codex loads the local `.codex/` config.
 
 - `../codex-harness-100/ko/21-code-reviewer`: Closest existing Codex review harness with parallel specialist roles and a synthesis step.
 
+## Harness Pointer
+
+This repository has a Codex-native harness. Use the orchestrator skill below as the entry point.
+- Agent source of truth: `.codex/agents/`
+- Skill source of truth: `.agents/skills/`
+
 ## Collaboration Pattern
 
 - `fan-out/fan-in`
+
+## Execution Mode
+
+- `codex-custom-subagents`
 
 ## Skills
 
@@ -61,3 +71,9 @@ Ask Codex to use the `code-reviewer` skill, or use a natural-language request th
 - Confirm every custom agent TOML defines `description`.
 - Confirm every custom agent TOML defines `developer_instructions`.
 - Remove any unresolved placeholders before considering the harness complete.
+
+## Change History
+
+| Date | Change | Target | Reason |
+|------|--------|--------|--------|
+| scaffolded | Initial harness scaffold | AGENTS.md, .agents, .codex | Generated from harness spec |
