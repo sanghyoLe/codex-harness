@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="harness_banner.png" alt="Harness Banner" width="600">
+</p>
+
 # Codex Harness
 
 **Team-Architecture Factory for Codex**
@@ -125,6 +129,18 @@ Generated harnesses commonly also use a repo-local `_workspace/` directory for i
 
 When the sibling repository `codex-harness-100` is available (see the search script for candidate paths), this plugin should treat that catalog as its primary reference library instead of inventing structures from scratch.
 
+## Category — Where Harness Sits
+
+This repository is the Codex runtime port of the original team-architecture factory. It sits at the meta-factory layer: a harness that generates other project harnesses.
+
+| Layer | What it does | Codex output |
+|-------|--------------|--------------|
+| Meta-factory | Domain request -> architecture pattern + roles + skills | `AGENTS.md`, `.agents/skills/`, `.codex/agents/` |
+| Project harness | Reusable workflow for one repository | Orchestrator skill + custom subagent roles |
+| Runtime config | Local Codex behavior and search/agent policy | `.codex/config.toml` |
+
+The upstream Claude project emphasizes Agent Teams. This port keeps the architecture patterns and evolution workflow, but emits Codex-native files instead of `.claude/` files.
+
 ## Key Features
 
 - **Team Architecture Design**: choose among pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation, and hybrid execution
@@ -213,6 +229,18 @@ If you are still editing the plugin before installation:
 
 See [PUBLISHING.md](PUBLISHING.md) for the full repo marketplace, personal marketplace, and public release guidance.
 
+## Quickstart
+
+See [docs/quickstart.md](docs/quickstart.md) for a short local workflow. For deterministic smoke testing, run:
+
+```bash
+python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
+  --spec examples/code-reviewer/spec.json \
+  --target /tmp/codex-harness-demo
+```
+
+See [docs/experimental-dependency.md](docs/experimental-dependency.md) for the Codex runtime assumptions behind the generated files.
+
 ## Repo Layout
 
 ```text
@@ -229,6 +257,7 @@ codex-harness/
 │               ├── SKILL.md
 │               ├── agents/openai.yaml
 │               ├── references/
+│               │   ├── agent-design-patterns.md
 │               │   ├── architecture-patterns.md
 │               │   ├── reference-library.md
 │               │   ├── orchestrator-template.md
@@ -239,17 +268,20 @@ codex-harness/
 │               └── scripts/
 │                   ├── find_reference_harness.py
 │                   └── scaffold_harness.py
+├── docs/
+│   ├── quickstart.md
+│   └── experimental-dependency.md
 ├── examples/
-│   └── code-reviewer/
-│       ├── spec.json
-│       ├── AGENTS.md
-│       ├── .agents/...
-│       └── .codex/...
+│   ├── code-reviewer/
+│   │   ├── spec.json
+│   │   ├── AGENTS.md
+│   │   ├── .agents/...
+│   │   └── .codex/...
 │   └── fullstack-webapp/
-│       ├── spec.json
-│       ├── AGENTS.md
-│       ├── .agents/...
-│       └── .codex/...
+│   │   ├── spec.json
+│   │   ├── AGENTS.md
+│   │   ├── .agents/...
+│   │   └── .codex/...
 └── README.md
 ```
 

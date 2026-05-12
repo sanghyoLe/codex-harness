@@ -6,6 +6,13 @@ This project follows Semantic Versioning in spirit while the distribution format
 
 ### Added
 
+- Added Codex-adapted upstream repository additions:
+  - `CONTRIBUTING.md`
+  - `docs/quickstart.md`
+  - `docs/experimental-dependency.md` rewritten as Codex runtime compatibility notes
+  - GitHub issue and PR templates
+  - Harness banner/icon/social/team image assets
+- Added `agent-design-patterns.md` as a compatibility alias for the upstream reference naming.
 - Added Codex-adapted upstream Harness 1.2.x concepts:
   - Phase 0 existing-harness audit before scaffolding or maintenance
   - `AGENTS.md` pointer policy so agent and skill files remain the source of truth
@@ -17,6 +24,7 @@ This project follows Semantic Versioning in spirit while the distribution format
 ### Changed
 
 - Updated the `harness` skill workflow from a simple 6-phase generator to a Codex-native audit -> design -> scaffold -> validate -> evolve workflow.
+- Updated README and README_KO with the upstream category positioning and Codex quickstart links.
 - Refreshed bundled reference documents from the newer Claude Harness material, then adapted them to Codex-native outputs (`AGENTS.md`, `.agents/skills/`, `.codex/agents/*.toml`) instead of `.claude/`.
 - Updated README and README_KO to describe the newer team-architecture factory positioning, pointer policy, validation, and evolution loop.
 - Rewrote `README.md` to reflect the original `harness` product structure and messaging, adapted for Codex-native outputs

@@ -10,7 +10,7 @@ Codex용 프로젝트 하네스를 설계하고 스캐폴드하는 메타 스킬
 ## 핵심 원칙
 
 1. 결과물은 반드시 Codex-native 구조로 남긴다: `AGENTS.md`, `.agents/skills/`, `.codex/config.toml`, `.codex/agents/*.toml`.
-2. 가능하면 `codex-harness-100`을 먼저 참고하고, 필요할 때만 새 구조를 발명한다.
+2. 가능하면 `codex-harness-100`이나 upstream `harness-100` 계열 예시를 먼저 참고하고, 필요할 때만 새 구조를 발명한다.
 3. `AGENTS.md`에는 하네스 포인터만 기록한다. 에이전트/스킬 전체 내용을 중복하지 말고 트리거 규칙, 주요 경로, 변경 이력만 남긴다.
 4. 하네스는 고정물이 아니라 진화하는 시스템이다. 실행 후 피드백을 반영해 역할, 스킬, 오케스트레이터, `AGENTS.md` 포인터를 계속 갱신한다.
 5. 역할 수는 최소화하되 역할 경계와 데이터 흐름은 명확하게 잡는다.
@@ -74,7 +74,7 @@ python3 plugins/harness/skills/harness/scripts/find_reference_harness.py "code r
 
 ### Phase 2: 팀 아키텍처 설계
 
-`references/architecture-patterns.md`를 읽고 가장 작은 패턴을 선택한다:
+`references/agent-design-patterns.md` 또는 `references/architecture-patterns.md`를 읽고 가장 작은 패턴을 선택한다:
 
 - `pipeline`
 - `fan-out/fan-in`
@@ -239,9 +239,11 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
 ## 참고 문서
 
 - `references/architecture-patterns.md`
+- `references/agent-design-patterns.md`
 - `references/orchestrator-template.md`
 - `references/team-examples.md`
 - `references/skill-writing-guide.md`
 - `references/skill-testing-guide.md`
 - `references/qa-agent-guide.md`
 - `references/reference-library.md`
+- repo docs: `docs/quickstart.md`, `docs/experimental-dependency.md`, `CONTRIBUTING.md`

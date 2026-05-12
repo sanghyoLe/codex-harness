@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="harness_banner.png" alt="Harness Banner" width="600">
+</p>
+
 # Codex Harness
 
 **Codex용 Team-Architecture Factory**
@@ -127,6 +131,18 @@ Personal marketplace 파일 예시:
 
 sibling 경로에 `codex-harness-100`이 있으면(검색 스크립트가 자동 탐색), 이 저장소는 그 레퍼런스 라이브러리를 우선적으로 참고해야 한다.
 
+## 카테고리 — Harness의 위치
+
+이 저장소는 원본 team-architecture factory의 Codex 런타임 포트다. 하나의 완성 하네스가 아니라, 현재 프로젝트에 맞는 다른 하네스를 생성하는 메타 팩토리다.
+
+| 계층 | 역할 | Codex 산출물 |
+|------|------|--------------|
+| 메타 팩토리 | 도메인 요청 -> 아키텍처 패턴 + 역할 + 스킬 | `AGENTS.md`, `.agents/skills/`, `.codex/agents/` |
+| 프로젝트 하네스 | 한 저장소에서 재사용할 워크플로우 | 오케스트레이터 스킬 + 커스텀 서브에이전트 |
+| 런타임 설정 | 로컬 Codex 동작과 검색/에이전트 정책 | `.codex/config.toml` |
+
+원본 Claude 프로젝트는 Agent Teams를 중심에 둔다. 이 포트는 같은 아키텍처 패턴과 진화 워크플로우를 유지하되 `.claude/` 대신 Codex-native 파일을 생성한다.
+
 ## 핵심 기능
 
 - **팀 아키텍처 설계**: pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation, hybrid 실행 패턴 선택
@@ -215,6 +231,18 @@ Phase 7: 하네스 진화 / 운영
 
 repo marketplace, personal marketplace, 공개 배포 상태는 [PUBLISHING_KO.md](PUBLISHING_KO.md)에 별도로 정리했다.
 
+## 빠른 시작
+
+짧은 로컬 실행 절차는 [docs/quickstart.md](docs/quickstart.md)를 참고한다. 결정적인 smoke test는 아래처럼 실행한다.
+
+```bash
+python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
+  --spec examples/code-reviewer/spec.json \
+  --target /tmp/codex-harness-demo
+```
+
+생성 파일의 Codex 런타임 전제는 [docs/experimental-dependency.md](docs/experimental-dependency.md)에 정리되어 있다.
+
 ## 저장소 구조
 
 ```text
@@ -231,6 +259,7 @@ codex-harness/
 │               ├── SKILL.md
 │               ├── agents/openai.yaml
 │               ├── references/
+│               │   ├── agent-design-patterns.md
 │               │   ├── architecture-patterns.md
 │               │   ├── reference-library.md
 │               │   ├── orchestrator-template.md
@@ -241,17 +270,20 @@ codex-harness/
 │               └── scripts/
 │                   ├── find_reference_harness.py
 │                   └── scaffold_harness.py
+├── docs/
+│   ├── quickstart.md
+│   └── experimental-dependency.md
 ├── examples/
-│   └── code-reviewer/
-│       ├── spec.json
-│       ├── AGENTS.md
-│       ├── .agents/...
-│       └── .codex/...
+│   ├── code-reviewer/
+│   │   ├── spec.json
+│   │   ├── AGENTS.md
+│   │   ├── .agents/...
+│   │   └── .codex/...
 │   └── fullstack-webapp/
-│       ├── spec.json
-│       ├── AGENTS.md
-│       ├── .agents/...
-│       └── .codex/...
+│   │   ├── spec.json
+│   │   ├── AGENTS.md
+│   │   ├── .agents/...
+│   │   └── .codex/...
 └── README.md
 ```
 
