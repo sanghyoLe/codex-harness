@@ -75,5 +75,5 @@ Instead:
 
 - keep the structural strengths
 - rename roles when the domain changes
-- shrink the team when the target scope is smaller
+- shrink the workflow when the target scope is smaller
 - add review roles only when the quality bar requires them

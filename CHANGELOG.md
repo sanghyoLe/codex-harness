@@ -19,17 +19,17 @@ This project follows Semantic Versioning in spirit while the distribution format
   - hybrid execution mode and producer-reviewer naming
   - harness evolution / maintenance workflow for follow-up changes and drift repair
 - Added scaffold output sections for harness pointers, execution mode, and change history.
-- Expanded plugin metadata to version `1.2.1` with team-architecture-factory positioning and broader keywords.
+- Expanded plugin metadata to version `1.2.1` with workflow-architecture-factory positioning and broader keywords.
 
 ### Changed
 
 - Updated the `harness` skill workflow from a simple 6-phase generator to a Codex-native audit -> design -> scaffold -> validate -> evolve workflow.
 - Updated README and README_KO with the upstream category positioning and Codex quickstart links.
-- Refreshed bundled reference documents from the newer Claude Harness material, then adapted them to Codex-native outputs (`AGENTS.md`, `.agents/skills/`, `.codex/agents/*.toml`) instead of `.claude/`.
-- Updated README and README_KO to describe the newer team-architecture factory positioning, pointer policy, validation, and evolution loop.
+- Refreshed bundled reference documents from upstream Harness material, then adapted them to Codex-native outputs (`AGENTS.md`, `.agents/skills/`, `.codex/agents/*.toml`).
+- Updated README and README_KO to describe the newer workflow-architecture factory positioning, pointer policy, validation, and evolution loop.
 - Rewrote `README.md` to reflect the original `harness` product structure and messaging, adapted for Codex-native outputs
 - Added `README_KO.md` so the Codex version keeps the original project's bilingual documentation pattern
-- Rewrote `plugins/harness/skills/harness/SKILL.md` into a fuller 6-phase meta-skill workflow aligned with the Claude original
+- Rewrote `plugins/harness/skills/harness/SKILL.md` into a fuller 6-phase meta-skill workflow aligned with the upstream project
 - Expanded the scaffolded harness templates so generated outputs include collaboration pattern, validation checklist, richer role guidance, and more procedural orchestrator steps
 - Expanded the bundled reference documents so architecture selection, orchestrator design, QA design, skill writing, testing, and team examples are closer to the original `harness` depth
 - Added generated sample harnesses under `examples/code-reviewer/` and `examples/fullstack-webapp/` to exercise both review-heavy and delivery-oriented scaffold outputs end to end
@@ -38,6 +38,6 @@ This project follows Semantic Versioning in spirit while the distribution format
 
 ### Fixed
 
-- Kept upstream Claude Agent Teams terminology out of the Codex port where it would imply `.claude/` output or Claude-only tools.
+- Kept non-Codex runtime terminology out of the Codex port where it would imply unsupported output or tools.
 - Normalized orchestrator, supporting skill, and agent names before rendering files so generated `.codex/config.toml` entries stay aligned with actual file paths
 - Fixed the reference search script's default root detection so it finds the sibling `codex-harness-100` repository in the current workspace layout

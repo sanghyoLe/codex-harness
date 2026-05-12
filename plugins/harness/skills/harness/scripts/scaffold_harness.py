@@ -18,13 +18,13 @@ TRANSLATIONS = {
         "agents_md_explains": "- `AGENTS.md` explains this harness.",
         "skills_store": "- `.agents/skills/` stores the orchestrator and supporting skills.",
         "config_registers": "- `.codex/config.toml` stores global Codex and subagent settings for the project.",
-        "agent_toml_points": "- `.codex/agents/*.toml` defines standalone custom subagents with their own instructions.",
+        "agent_toml_points": "- `.codex/agents/*.toml` defines project-scoped custom agents for explicit Codex subagent workflows.",
         "trusted_state": "Open the project in a trusted state so Codex loads the local `.codex/` config.",
         "reference_lineage": "## Reference Lineage",
-        "collaboration_pattern": "## Collaboration Pattern",
+        "collaboration_pattern": "## Workflow Pattern",
         "execution_mode": "## Execution Mode",
         "skills": "## Skills",
-        "subagent_roles": "## Subagent Roles",
+        "subagent_roles": "## Custom Agent Roles",
         "usage": "## Usage",
         "ask_codex": "Ask Codex to use the `{name}` skill, or use a natural-language request that matches it.",
         "recommended_start": "- Recommended start: `{name}`",
@@ -44,7 +44,7 @@ TRANSLATIONS = {
         "check_toml_description": "- Confirm every custom agent TOML defines `description`.",
         "check_toml_instructions": "- Confirm every custom agent TOML defines `developer_instructions`.",
         "remove_placeholders": "- Remove any unresolved placeholders before considering the harness complete.",
-        "use_role": "Use this role when Codex spawns the matching custom subagent.",
+        "use_role": "Use this role when Codex explicitly spawns the matching custom agent as a subagent.",
         "core_responsibilities": "## Core Responsibilities",
         "resp_1": "1. Produce concrete outputs, not abstract commentary.",
         "resp_2": "2. Work within the role boundary instead of expanding scope opportunistically.",
@@ -60,11 +60,11 @@ TRANSLATIONS = {
         "write_output_default": "- Write the output in the agreed file location.",
         "keep_structure": "- Keep the structure easy for the orchestrator to merge or review.",
         "facts_risks": "- Distinguish facts, risks, and recommendations when relevant.",
-        "team_protocol": "## Team Communication Protocol",
+        "team_protocol": "## Coordination Protocol",
         "read_inputs": "- Read inputs from {items} when relevant.",
-        "report_to": "- Report final findings to `{name}`.",
+        "report_to": "- Return final findings to the orchestrator role `{name}`.",
         "report_blockers": "- Report major blockers quickly.",
-        "call_out_overlaps": "- Call out overlaps or contradictions with adjacent roles instead of silently guessing.",
+        "call_out_overlaps": "- Call out overlaps or contradictions with adjacent roles through the parent thread or shared workspace files.",
         "error_handling": "## Error Handling",
         "error_default_1": "- If the scope is smaller than expected, downshift to the highest-value review or artifact.",
         "error_default_2": "- If required context is missing, state the gap and continue with the strongest defensible partial result.",
@@ -76,7 +76,7 @@ TRANSLATIONS = {
         "workflow_2": "2. Search for nearby reference harnesses before inventing a new structure.",
         "workflow_3": "3. Choose the smallest collaboration pattern that fits the work.",
         "workflow_4": "4. Define explicit role boundaries, outputs, and validation checkpoints.",
-        "workflow_5": "5. Delegate work with concrete deliverables and dependency order.",
+        "workflow_5": "5. Explicitly spawn only the needed Codex subagents, with concrete deliverables and dependency order.",
         "workflow_6": "6. Merge outputs, request revisions when needed, and remove unresolved placeholders.",
         "workflow_7": "7. Present final deliverables with file references and remaining risks.",
         "workspace_contract": "## Workspace Contract",
@@ -96,13 +96,13 @@ TRANSLATIONS = {
         "agents_md_explains": "- `AGENTS.md`는 이 하네스를 설명한다.",
         "skills_store": "- `.agents/skills/`에는 오케스트레이터와 보조 스킬이 들어간다.",
         "config_registers": "- `.codex/config.toml`은 프로젝트 전역 Codex 및 서브에이전트 설정을 담는다.",
-        "agent_toml_points": "- `.codex/agents/*.toml`은 지시문을 포함한 standalone 커스텀 서브에이전트를 정의한다.",
+        "agent_toml_points": "- `.codex/agents/*.toml`은 명시적 Codex 서브에이전트 워크플로우에 사용할 프로젝트 범위 커스텀 에이전트를 정의한다.",
         "trusted_state": "Codex가 로컬 `.codex/` 설정을 읽도록 프로젝트를 trusted 상태로 연다.",
         "reference_lineage": "## 참고 하네스 계보",
-        "collaboration_pattern": "## 협업 패턴",
+        "collaboration_pattern": "## 워크플로우 패턴",
         "execution_mode": "## 실행 모드",
         "skills": "## 스킬",
-        "subagent_roles": "## 서브에이전트 역할",
+        "subagent_roles": "## 커스텀 에이전트 역할",
         "usage": "## 사용법",
         "ask_codex": "Codex에게 `{name}` 스킬을 사용하라고 요청하거나, 그 의도와 맞는 자연어 요청을 사용한다.",
         "recommended_start": "- 추천 시작점: `{name}`",
@@ -122,7 +122,7 @@ TRANSLATIONS = {
         "check_toml_description": "- 각 커스텀 에이전트 TOML에 `description`이 있는지 확인한다.",
         "check_toml_instructions": "- 각 커스텀 에이전트 TOML에 `developer_instructions`가 있는지 확인한다.",
         "remove_placeholders": "- 미해결 placeholder를 모두 제거한 뒤 완료로 본다.",
-        "use_role": "Codex가 이 이름의 커스텀 서브에이전트를 띄울 때 사용한다.",
+        "use_role": "Codex가 이 이름의 커스텀 에이전트를 서브에이전트로 명시적으로 spawn할 때 사용한다.",
         "core_responsibilities": "## 핵심 책임",
         "resp_1": "1. 추상적 코멘트보다 구체적 산출물을 만든다.",
         "resp_2": "2. 역할 경계를 지키고, 기회주의적으로 범위를 넓히지 않는다.",
@@ -138,11 +138,11 @@ TRANSLATIONS = {
         "write_output_default": "- 합의된 파일 위치에 결과를 작성한다.",
         "keep_structure": "- 오케스트레이터가 병합하거나 검토하기 쉽게 구조를 유지한다.",
         "facts_risks": "- 필요할 때 사실, 리스크, 권고를 구분해서 쓴다.",
-        "team_protocol": "## 팀 커뮤니케이션 규약",
+        "team_protocol": "## 조율 규약",
         "read_inputs": "- 관련이 있으면 {items}에서 입력을 읽는다.",
-        "report_to": "- 최종 결과는 `{name}`에게 보고한다.",
+        "report_to": "- 최종 결과는 오케스트레이터 역할 `{name}`에게 반환한다.",
         "report_blockers": "- 주요 blocker는 빠르게 알린다.",
-        "call_out_overlaps": "- 인접 역할과 겹치거나 충돌하는 부분은 추측하지 말고 명시한다.",
+        "call_out_overlaps": "- 인접 역할과 겹치거나 충돌하는 부분은 부모 스레드나 공유 워크스페이스 파일을 통해 명시한다.",
         "error_handling": "## 예외 처리",
         "error_default_1": "- 범위가 예상보다 작으면 가장 가치 높은 리뷰나 산출물로 축소한다.",
         "error_default_2": "- 필수 맥락이 없으면 빈칸을 명시하고, 방어 가능한 최선의 부분 결과를 계속 만든다.",
@@ -154,7 +154,7 @@ TRANSLATIONS = {
         "workflow_2": "2. 새 구조를 만들기 전에 근처 참고 하네스를 찾는다.",
         "workflow_3": "3. 작업에 맞는 가장 작은 협업 패턴을 고른다.",
         "workflow_4": "4. 역할 경계, 산출물, 검증 지점을 명시한다.",
-        "workflow_5": "5. 구체적 deliverable과 의존 순서를 포함해 일을 위임한다.",
+        "workflow_5": "5. 필요한 Codex 서브에이전트만 명시적으로 spawn하도록 지시하고, 구체적 deliverable과 의존 순서를 전달한다.",
         "workflow_6": "6. 결과를 병합하고 필요하면 수정 요청을 하며 미해결 placeholder를 제거한다.",
         "workflow_7": "7. 최종 산출물은 파일 참조와 남은 리스크와 함께 제시한다.",
         "workspace_contract": "## 워크스페이스 계약",
@@ -217,7 +217,7 @@ def normalize_spec(raw_spec: dict) -> dict:
     spec["language"] = get_language(spec)
     spec["workspace_root"] = spec.get("workspace_root", "_workspace")
     spec["collaboration_pattern"] = spec.get("collaboration_pattern", "supervisor")
-    spec["execution_mode"] = spec.get("execution_mode", "codex-custom-subagents")
+    spec["execution_mode"] = spec.get("execution_mode", "codex-custom-agents-explicit-subagents")
 
     orchestrator = dict(spec["orchestrator"])
     orchestrator["name"] = slugify(orchestrator["name"])
@@ -266,7 +266,7 @@ def render_agents_md(spec: dict) -> str:
     web_search = spec.get("web_search", "disabled")
     references = ensure_list(spec.get("reference_harnesses"))
     pattern = spec.get("collaboration_pattern", "supervisor")
-    execution_mode = spec.get("execution_mode", "codex-custom-subagents")
+    execution_mode = spec.get("execution_mode", "codex-custom-agents-explicit-subagents")
     workspace_root = spec.get("workspace_root", "_workspace")
     modes = ensure_list(spec.get("mode_matrix"))
 
@@ -361,9 +361,6 @@ def render_config_toml(spec: dict) -> str:
         "#:schema https://developers.openai.com/codex/config-schema.json",
         "",
         f'web_search = "{spec.get("web_search", "disabled")}"',
-        "",
-        "[features]",
-        "multi_agent = true",
         "",
         "[agents]",
         f"max_threads = {spec.get('max_threads', max(len(ensure_list(spec.get('agents'))) + 1, 2))}",
@@ -511,7 +508,7 @@ def render_skill_md(skill: dict, title: str, summary: str, is_orchestrator: bool
 
     if is_orchestrator:
         lines = [header.rstrip(), "", summary, ""]
-        execution_mode = spec.get("execution_mode", "codex-custom-subagents")
+        execution_mode = spec.get("execution_mode", "codex-custom-agents-explicit-subagents")
         lines.extend([t(spec, "execution_mode"), "", f"- `{execution_mode}`", ""])
 
         activation_examples = ensure_list(spec.get("activation_examples"))

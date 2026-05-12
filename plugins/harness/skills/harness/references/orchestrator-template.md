@@ -4,9 +4,9 @@
 
 ## 실행 모드
 
-### A. Codex Custom Subagents
+### A. Codex Custom Agents + Explicit Subagent Workflow
 
-2개 이상의 전문 역할이 실질적으로 결과 품질을 높일 때 기본으로 사용한다. 각 역할은 `.codex/agents/{role}.toml`에 정의하고, 오케스트레이터는 입력, 출력 경로, 책임 경계를 명확히 전달한다.
+2개 이상의 전문 역할이 실질적으로 결과 품질을 높일 때 기본으로 사용한다. 각 역할은 `.codex/agents/{role}.toml`에 custom agent로 정의하고, 오케스트레이터는 필요한 역할을 명시적으로 spawn하도록 지시한다. Codex는 description만 보고 자동으로 하위 에이전트를 띄우지 않는다.
 
 ### B. Orchestrator Only
 
@@ -14,7 +14,7 @@
 
 ### C. Hybrid
 
-Phase별로 역할 활성화 방식을 다르게 한다. 예: 요구사항 정리는 오케스트레이터 단독, 리뷰는 여러 custom subagents, 최종 통합은 오케스트레이터.
+Phase별로 역할 활성화 방식을 다르게 한다. 예: 요구사항 정리는 오케스트레이터 단독, 리뷰는 여러 custom agent를 명시적으로 spawn, 최종 통합은 오케스트레이터.
 
 ## 권장 섹션
 
@@ -51,11 +51,11 @@ description: "{도메인} 하네스를 실행한다. {초기 실행 키워드}. 
 
 ## Execution Mode
 
-- 기본 모드: Codex custom subagents
+- 기본 모드: Codex custom agents + explicit subagent workflow
 - 축소 모드: orchestrator only
 - 하이브리드 조건: {조건}
 
-## Team Composition
+## Role Composition
 
 | Role | Config | Purpose | Primary Output |
 |------|--------|---------|----------------|
@@ -91,11 +91,12 @@ description: "{도메인} 하네스를 실행한다. {초기 실행 키워드}. 
 2. 병렬 가능 구간과 순차 의존 구간을 구분한다.
 3. `_workspace/01_plan.md`에 활성 역할, 입력/출력, 의존 관계, 검증 체크포인트를 기록한다.
 
-### Phase 3: Delegation
+### Phase 3: Explicit Subagent Delegation
 
-1. 독립 작업은 병렬로 맡긴다.
+1. 독립 작업은 필요한 custom agent만 명시적으로 spawn하여 병렬로 맡긴다.
 2. 의존 작업은 이전 산출물이 나온 뒤 순차 실행한다.
 3. 각 역할에게 읽을 입력, 쓸 출력 경로, 책임 경계를 명시한다.
+4. Codex subagent는 부모 스레드와 공유 워크스페이스 파일을 통해 결과를 반환한다고 가정하고, 에이전트 간 직접 메시징을 전제로 하지 않는다.
 
 ### Phase 4: Integration
 
@@ -119,7 +120,7 @@ description: "{도메인} 하네스를 실행한다. {초기 실행 키워드}. 
 
 ## Parallelism Rules
 
-- `{role-1}`와 `{role-2}`는 서로 독립이면 병렬 처리한다.
+- `{role-1}`와 `{role-2}`는 서로 독립이면 병렬 subagent로 처리한다.
 - reviewer는 생성자 산출물이 나온 뒤 실행한다.
 - narrow request이면 불필요한 역할은 생략한다.
 

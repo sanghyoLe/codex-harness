@@ -4,14 +4,14 @@
 
 # Codex Harness
 
-**Codex용 Team-Architecture Factory**
+**Codex용 Workflow-Architecture Factory**
 
-`AGENTS.md` 포인터, 저장소 로컬 스킬, 재사용 가능한 Codex 서브에이전트 역할, 검증 게이트, 하네스 변경 이력을 생성하는 프로젝트 맞춤형 하네스 생성기.
+`AGENTS.md` 포인터, 저장소 로컬 스킬, 재사용 가능한 Codex custom agent 역할, 검증 게이트, 하네스 변경 이력을 생성하는 프로젝트 맞춤형 하네스 생성기.
 
 [English](README.md) | **한국어**  
 [Publishing Guide](PUBLISHING.md) | [공개 배포 가이드](PUBLISHING_KO.md)
 
-이 저장소는 Claude용 원본 `harness` 프로젝트를 Codex-native 플러그인과 메타 스킬로 옮긴 것이다. 목표는 같다. 사용자가 "하네스 구성해줘" 또는 "이 프로젝트에 맞는 harness 만들어줘"라고 요청하면, Codex가 도메인을 분석하고 팀 아키텍처 패턴을 고른 뒤, 전문 역할과 오케스트레이터 스킬을 포함한 재사용 가능한 로컬 하네스를 생성하게 만드는 것이다.
+이 저장소는 upstream `harness` 프로젝트를 Codex-native 플러그인과 메타 스킬로 옮긴 것이다. 목표는 같다. 사용자가 "하네스 구성해줘" 또는 "이 프로젝트에 맞는 harness 만들어줘"라고 요청하면, Codex가 도메인을 분석하고 워크플로우 아키텍처 패턴을 고른 뒤, 전문 역할과 오케스트레이터 스킬을 포함한 재사용 가능한 로컬 하네스를 생성하게 만드는 것이다.
 
 ## 원본 프로젝트
 
@@ -122,7 +122,7 @@ Personal marketplace 파일 예시:
 - `AGENTS.md`
 - `.agents/skills/` 아래의 오케스트레이터 스킬
 - 선택적 supporting skill
-- `.codex/agents/` 아래의 standalone 서브에이전트 파일
+- `.codex/agents/` 아래의 Codex custom agent TOML 파일
 - `.codex/config.toml`
 
 생성된 하네스는 중간 산출물, handoff 메모, 실행 단위 작업 파일, 하네스 변경 이력을 위해 저장소 로컬 `_workspace/` 디렉터리를 함께 쓰는 경우가 많다. 이 폴더는 현재 저장소에서만 쓰는 로컬 scratch 영역이지 소스 디렉터리나 공유 패키지가 아니므로, 대부분의 프로젝트에서는 재생성 가능한 대상으로 보고 `.gitignore`에 넣는 편이 맞다.
@@ -133,22 +133,22 @@ sibling 경로에 `codex-harness-100`이 있으면(검색 스크립트가 자동
 
 ## 카테고리 — Harness의 위치
 
-이 저장소는 원본 team-architecture factory의 Codex 런타임 포트다. 하나의 완성 하네스가 아니라, 현재 프로젝트에 맞는 다른 하네스를 생성하는 메타 팩토리다.
+이 저장소는 원본 workflow-architecture factory의 Codex 런타임 포트다. 하나의 완성 하네스가 아니라, 현재 프로젝트에 맞는 다른 하네스를 생성하는 메타 팩토리다.
 
 | 계층 | 역할 | Codex 산출물 |
 |------|------|--------------|
 | 메타 팩토리 | 도메인 요청 -> 아키텍처 패턴 + 역할 + 스킬 | `AGENTS.md`, `.agents/skills/`, `.codex/agents/` |
-| 프로젝트 하네스 | 한 저장소에서 재사용할 워크플로우 | 오케스트레이터 스킬 + 커스텀 서브에이전트 |
+| 프로젝트 하네스 | 한 저장소에서 재사용할 워크플로우 | 오케스트레이터 스킬 + 커스텀 에이전트 |
 | 런타임 설정 | 로컬 Codex 동작과 검색/에이전트 정책 | `.codex/config.toml` |
 
-원본 Claude 프로젝트는 Agent Teams를 중심에 둔다. 이 포트는 같은 아키텍처 패턴과 진화 워크플로우를 유지하되 `.claude/` 대신 Codex-native 파일을 생성한다.
+원본 프로젝트는 다른 런타임 용어를 쓴다. 이 포트는 같은 아키텍처 패턴과 진화 워크플로우를 유지하되 Codex-native 파일과 명시적 서브에이전트 워크플로우 지시를 생성한다.
 
 ## 핵심 기능
 
-- **팀 아키텍처 설계**: pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation, hybrid 실행 패턴 선택
+- **워크플로우 아키텍처 설계**: pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation, hybrid 실행 패턴 선택
 - **기존 하네스 감사**: 파일을 쓰기 전에 신규 구축/기존 확장/운영·동기화 요청인지 판별
 - **Reference-First 생성**: `codex-harness-100`에서 가까운 예시를 찾고, 그대로 복사하지 않고 구조만 적응
-- **Codex-Native 산출물**: Claude 전용 `.claude/` 대신 `AGENTS.md`, `.agents`, `.codex` 구조 생성
+- **Codex-Native 산출물**: Codex 공식 표면에 맞춰 `AGENTS.md`, `.agents`, `.codex` 구조 생성
 - **재사용 가능한 스캐폴딩**: 레퍼런스 검색과 JSON spec 기반 생성 스크립트 포함
 - **검증과 진화**: 역할 경계, workflow, 출력 계약, placeholder 정리 기준, 후속 피드백 반영 루프 포함
 
@@ -159,7 +159,7 @@ Phase 0: 기존 하네스 감사 + 레퍼런스 검색
     ↓
 Phase 1: 도메인 분석
     ↓
-Phase 2: 팀 아키텍처 설계
+Phase 2: 워크플로우 아키텍처 설계
     ↓
 Phase 3: 하네스 스펙 정의
     ↓
@@ -199,7 +199,7 @@ Phase 7: 하네스 진화 / 운영
 
 ### Repo marketplace
 
-팀이 하나의 저장소 안에서만 플러그인을 쓰고 싶을 때 적합하다.
+워크플로우가 하나의 저장소 안에서만 플러그인을 쓰고 싶을 때 적합하다.
 
 1. 플러그인 폴더를 `$REPO_ROOT/plugins/harness`에 둔다.
 2. `$REPO_ROOT/.agents/plugins/marketplace.json`을 추가하거나 갱신한다.
@@ -293,13 +293,13 @@ codex-harness/
 
 ```text
 하네스 구성해줘
-이 프로젝트에 맞는 에이전트 팀 설계해줘
+이 프로젝트에 맞는 Codex 서브에이전트 워크플로우 설계해줘
 research harness 만들어줘
 코드 리뷰 하네스 만들어줘
 fullstack-webapp 하네스 설계해줘
 ```
 
-### 협업 패턴
+### 워크플로우 패턴
 
 | 패턴 | 적합한 경우 |
 |------|------------|
@@ -362,7 +362,7 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
 - `.codex/config.toml`
 - `.codex/agents/<role>.toml`
 
-생성되는 `.codex/agents/<role>.toml`은 최신 Codex 커스텀 서브에이전트 스키마에 맞춰 `name`, `description`, `developer_instructions`를 standalone 파일 안에 직접 담는다.
+생성되는 `.codex/agents/<role>.toml`은 최신 Codex custom agent 스키마에 맞춰 `name`, `description`, `developer_instructions`를 TOML 파일 안에 직접 담는다.
 
 ## 예제 산출물
 
@@ -380,7 +380,7 @@ python3 plugins/harness/skills/harness/scripts/scaffold_harness.py \
 **딥 리서치**
 
 ```text
-Build a harness for deep research. I need a team that can investigate any topic
+Build a harness for deep research. I need a Codex subagent workflow that can investigate any topic
 from multiple angles, cross-check sources, and produce a structured report.
 ```
 
@@ -401,7 +401,7 @@ from multiple angles, cross-check sources, and produce a structured report.
 **콘텐츠 제작**
 
 ```text
-Build a harness for YouTube content production. The team should research topics,
+Build a harness for YouTube content production. The workflow should research topics,
 write scripts, optimize SEO, and plan thumbnails with a clear review step.
 ```
 
@@ -413,6 +413,9 @@ write scripts, optimize SEO, and plan thumbnails with a clear review step.
 
 - [Codex Plugins](https://developers.openai.com/codex/plugins/)
 - [Build plugins](https://developers.openai.com/codex/plugins/build)
+- [Codex Subagents](https://developers.openai.com/codex/subagents)
+- [Codex Skills](https://developers.openai.com/codex/skills)
+- [Custom instructions with AGENTS.md](https://developers.openai.com/codex/guides/agents-md)
 - [Config reference](https://developers.openai.com/codex/config-reference/#configtoml)
 
 ## 라이선스

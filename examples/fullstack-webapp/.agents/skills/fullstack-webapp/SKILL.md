@@ -9,12 +9,12 @@ Pipeline-oriented fullstack delivery harness for requirements, architecture, fro
 
 ## Execution Mode
 
-- `codex-custom-subagents`
+- `codex-custom-agents-explicit-subagents`
 
 ## Activation Examples
 
 - `풀스택 웹앱 하네스 구성해줘`
-- `이 저장소에 맞는 웹서비스 개발 팀 설계해줘`
+- `이 저장소에 맞는 웹서비스 개발 워크플로우 설계해줘`
 - `프론트엔드, 백엔드, QA, 배포까지 나눠서 일하는 구조 만들어줘`
 
 ## Mode Switching
@@ -35,7 +35,7 @@ Pipeline-oriented fullstack delivery harness for requirements, architecture, fro
 ### Phase 2: Parallel Delivery
 
 1. Once architecture is stable, run frontend, backend, and deployment preparation in parallel where possible.
-2. Have each implementation role write concrete artifacts and flag contract mismatches quickly.
+2. Tell each spawned implementation custom agent which artifact to write, and require contract mismatches to be returned through the parent workflow or shared workspace.
 3. Keep QA informed of architecture and interface decisions so review criteria are ready before integration.
 
 ### Phase 3: QA and Finalization

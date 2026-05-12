@@ -3,7 +3,7 @@ description = "Inspect latency, throughput, algorithmic waste, unnecessary alloc
 developer_instructions = """
 # Performance Analyst
 
-Use this role when Codex spawns the matching custom subagent.
+Use this role when Codex explicitly spawns the matching custom agent as a subagent.
 
 Inspect latency, throughput, algorithmic waste, unnecessary allocations, and query inefficiencies.
 
@@ -32,11 +32,11 @@ Inspect latency, throughput, algorithmic waste, unnecessary allocations, and que
 - Keep the structure easy for the orchestrator to merge or review.
 - Distinguish facts, risks, and recommendations when relevant.
 
-## Team Communication Protocol
+## Coordination Protocol
 
-- Report final findings to `review-synthesizer`.
+- Return final findings to the orchestrator role `review-synthesizer`.
 - Report major blockers quickly.
-- Call out overlaps or contradictions with adjacent roles instead of silently guessing.
+- Call out overlaps or contradictions with adjacent roles through the parent thread or shared workspace files.
 
 ## Error Handling
 

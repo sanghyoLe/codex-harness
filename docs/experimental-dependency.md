@@ -1,8 +1,8 @@
 # Codex Runtime Compatibility
 
-> **Status:** Active · **Owner:** revfactory · **Last updated:** 2026-05-11
+> **Status:** Active · **Owner:** revfactory · **Last updated:** 2026-05-12
 
-This document tracks the runtime assumptions behind `codex-harness`. The upstream `harness` project targets Claude Code Agent Teams; this repository ports the idea to Codex-native project files.
+This document tracks the runtime assumptions behind `codex-harness`. The upstream `harness` project uses a different runtime vocabulary, so this repository ports the idea to Codex-native project files and Codex subagent workflows.
 
 ## Current State
 
@@ -11,10 +11,10 @@ This document tracks the runtime assumptions behind `codex-harness`. The upstrea
 - `AGENTS.md` as the short project pointer
 - `.agents/skills/*/SKILL.md` for the orchestrator and supporting skills
 - `.codex/config.toml` for project-level Codex configuration
-- `.codex/agents/*.toml` for standalone custom subagents
+- `.codex/agents/*.toml` for project-scoped custom agents used by explicit subagent workflows
 - `_workspace/` for intermediate artifacts and handoff notes
 
-There is no Claude-only `.claude/` output in the Codex port unless the user explicitly asks for it.
+There is no non-Codex runtime output unless the user explicitly asks for it.
 
 ## Runtime Assumptions
 
@@ -22,12 +22,20 @@ There is no Claude-only `.claude/` output in the Codex port unless the user expl
 |---------|------------|----------------|
 | Codex plugins | A local or marketplace plugin can expose `plugins/harness/skills/` | Users can install or iterate on the meta-skill |
 | Repo-local skills | `.agents/skills/` is available to the project | Generated orchestrators are reusable across sessions |
-| Custom subagents | `.codex/agents/*.toml` supports `name`, `description`, and `developer_instructions` | Specialist roles can be defined as durable files |
+| Custom agents | `.codex/agents/*.toml` supports `name`, `description`, and `developer_instructions` | Specialist roles can be defined as durable files |
 | Project config | `.codex/config.toml` supports web search and agent settings | Generated harnesses can declare default execution policy |
 
-## Difference From Upstream Harness
+Official Codex references:
 
-The upstream Claude project emphasizes Agent Teams primitives such as team creation, task lists, and direct agent-to-agent messaging. The Codex port keeps the same architecture patterns, but expresses them through Codex-native files and orchestrator instructions:
+- <https://developers.openai.com/codex/subagents>
+- <https://developers.openai.com/codex/skills>
+- <https://developers.openai.com/codex/guides/agents-md>
+- <https://developers.openai.com/codex/plugins/build>
+- <https://developers.openai.com/codex/config-reference>
+
+## Codex-Specific Behavior
+
+Codex subagent workflows are explicit: Codex spawns subagents when asked to do so. The port therefore keeps the upstream architecture patterns, but expresses them through Codex-native custom agent files and orchestrator instructions:
 
 - `pipeline`
 - `fan-out/fan-in`
@@ -37,7 +45,7 @@ The upstream Claude project emphasizes Agent Teams primitives such as team creat
 - `hierarchical-delegation`
 - `hybrid`
 
-The orchestrator owns workflow, dependency order, workspace contracts, and validation. Specialist subagents own depth in their assigned domains.
+The orchestrator owns workflow, dependency order, workspace contracts, validation, and spawn criteria. Specialist custom agents own depth in their assigned domains and return results through the parent workflow and shared workspace files.
 
 ## Compatibility Response
 

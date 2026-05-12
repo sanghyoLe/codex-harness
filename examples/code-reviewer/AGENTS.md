@@ -7,7 +7,7 @@ Parallel code review harness for architecture, security, performance, and style,
 - `AGENTS.md` explains this harness.
 - `.agents/skills/` stores the orchestrator and supporting skills.
 - `.codex/config.toml` stores global Codex and subagent settings for the project.
-- `.codex/agents/*.toml` defines standalone custom subagents with their own instructions.
+- `.codex/agents/*.toml` defines project-scoped custom agents for explicit Codex subagent workflows.
 
 Open the project in a trusted state so Codex loads the local `.codex/` config.
 
@@ -21,21 +21,21 @@ This repository has a Codex-native harness. Use the orchestrator skill below as 
 - Agent source of truth: `.codex/agents/`
 - Skill source of truth: `.agents/skills/`
 
-## Collaboration Pattern
+## Workflow Pattern
 
 - `fan-out/fan-in`
 
 ## Execution Mode
 
-- `codex-custom-subagents`
+- `codex-custom-agents-explicit-subagents`
 
 ## Skills
 
-- `code-reviewer`: Use when the user asks for a broad code review harness, PR review structure, or a role-based review team for architecture, security, performance, and code style.
+- `code-reviewer`: Use when the user asks for a broad code review harness, PR review structure, or a role-based Codex review workflow for architecture, security, performance, and code style.
 - `vulnerability-patterns`: Language-aware vulnerability checklist for the security analyst.
 - `refactoring-catalog`: Refactoring patterns and code-smell remediation guidance for architecture and performance review.
 
-## Subagent Roles
+## Custom Agent Roles
 
 - `style-inspector`: Inspect naming, formatting, readability, comment quality, and local coding conventions.
 - `security-analyst`: Inspect trust boundaries, exploitable issues, unsafe defaults, and sensitive-data handling.

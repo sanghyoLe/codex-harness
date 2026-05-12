@@ -7,7 +7,7 @@ Pipeline-oriented fullstack delivery harness for requirements, architecture, fro
 - `AGENTS.md` explains this harness.
 - `.agents/skills/` stores the orchestrator and supporting skills.
 - `.codex/config.toml` stores global Codex and subagent settings for the project.
-- `.codex/agents/*.toml` defines standalone custom subagents with their own instructions.
+- `.codex/agents/*.toml` defines project-scoped custom agents for explicit Codex subagent workflows.
 
 Open the project in a trusted state so Codex loads the local `.codex/` config.
 
@@ -21,13 +21,13 @@ This repository has a Codex-native harness. Use the orchestrator skill below as 
 - Agent source of truth: `.codex/agents/`
 - Skill source of truth: `.agents/skills/`
 
-## Collaboration Pattern
+## Workflow Pattern
 
 - `pipeline`
 
 ## Execution Mode
 
-- `codex-custom-subagents`
+- `codex-custom-agents-explicit-subagents`
 
 ## Skills
 
@@ -35,7 +35,7 @@ This repository has a Codex-native harness. Use the orchestrator skill below as 
 - `component-patterns`: Frontend component and state-management patterns for the frontend developer.
 - `api-security-checklist`: Backend API hardening checklist for auth, validation, and unsafe defaults.
 
-## Subagent Roles
+## Custom Agent Roles
 
 - `architect`: Define system shape, data boundaries, API contracts, and execution order so implementation roles can proceed with minimal ambiguity.
 - `frontend-dev`: Implement pages, UI components, client-side state, and API integration according to the agreed architecture.

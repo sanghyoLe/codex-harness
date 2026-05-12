@@ -4,14 +4,14 @@
 
 # Codex Harness
 
-**Team-Architecture Factory for Codex**
+**Workflow-Architecture Factory for Codex**
 
-Project-specific harness generator for `AGENTS.md` pointers, repo-local skills, reusable Codex subagent roles, validation gates, and harness evolution history.
+Project-specific harness generator for `AGENTS.md` pointers, repo-local skills, reusable Codex custom agent roles, validation gates, and harness evolution history.
 
 **English** | [Korean](README_KO.md)  
 [Publishing Guide](PUBLISHING.md) | [Korean Publishing Guide](PUBLISHING_KO.md)
 
-This repository adapts the original Claude-oriented `harness` project into a Codex-native plugin and meta skill. The goal is the same: when a user says "set up a harness" or "build a harness for this project", Codex should analyze the domain, choose a team-architecture pattern, define specialist roles, and scaffold a reusable harness for the current repository.
+This repository adapts the upstream `harness` project into a Codex-native plugin and meta skill. The goal is the same: when a user says "set up a harness" or "build a harness for this project", Codex should analyze the domain, choose a workflow-architecture pattern, define specialist roles, and scaffold a reusable harness for the current repository.
 
 ## Origin
 
@@ -39,7 +39,7 @@ Today, the practical install paths are `repo marketplace` or `personal marketpla
 
 ### Option 1: Install into one repo
 
-Use this when a team wants `codex-harness` only inside one project.
+Use this when a group wants `codex-harness` only inside one project.
 
 1. Copy this plugin into `$REPO_ROOT/plugins/harness`.
 2. Copy this marketplace file into `$REPO_ROOT/.agents/plugins/marketplace.json`:
@@ -120,7 +120,7 @@ See [PUBLISHING.md](PUBLISHING.md) for full examples and file contents.
 - a repo guide in `AGENTS.md`
 - one orchestrator skill under `.agents/skills/`
 - optional supporting skills
-- standalone custom subagent files under `.codex/agents/`
+- project-scoped custom agent files under `.codex/agents/`
 - Codex configuration in `.codex/config.toml`
 
 Generated harnesses commonly also use a repo-local `_workspace/` directory for intermediate artifacts, handoff notes, per-run working files, and harness change history. That folder is local scratch state for the current repository, not a source directory or shared package, so in most projects it should be treated as disposable and added to `.gitignore`.
@@ -131,22 +131,22 @@ When the sibling repository `codex-harness-100` is available (see the search scr
 
 ## Category — Where Harness Sits
 
-This repository is the Codex runtime port of the original team-architecture factory. It sits at the meta-factory layer: a harness that generates other project harnesses.
+This repository is the Codex runtime port of the original workflow-architecture factory. It sits at the meta-factory layer: a harness that generates other project harnesses.
 
 | Layer | What it does | Codex output |
 |-------|--------------|--------------|
 | Meta-factory | Domain request -> architecture pattern + roles + skills | `AGENTS.md`, `.agents/skills/`, `.codex/agents/` |
-| Project harness | Reusable workflow for one repository | Orchestrator skill + custom subagent roles |
+| Project harness | Reusable workflow for one repository | Orchestrator skill + custom agent roles |
 | Runtime config | Local Codex behavior and search/agent policy | `.codex/config.toml` |
 
-The upstream Claude project emphasizes Agent Teams. This port keeps the architecture patterns and evolution workflow, but emits Codex-native files instead of `.claude/` files.
+The upstream project uses a different runtime vocabulary. This port keeps the architecture patterns and evolution workflow, but emits Codex-native files and explicit subagent workflow instructions.
 
 ## Key Features
 
-- **Team Architecture Design**: choose among pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation, and hybrid execution
+- **Workflow Architecture Design**: choose among pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation, and hybrid execution
 - **Existing Harness Audit**: detect whether the request is a new build, extension, or maintenance/sync task before writing files
 - **Reference-First Generation**: search `codex-harness-100`, inspect nearby examples, then adapt deliberately
-- **Codex-Native Output**: generate `AGENTS.md`, repo-local skills, and `.codex` subagent configs rather than Claude-only `.claude/` files
+- **Codex-Native Output**: generate `AGENTS.md`, repo-local skills, and `.codex` custom agent configs using Codex project instructions, skills, and custom agents
 - **Reusable Scaffolding**: bundled scripts help search references and scaffold a new harness from a JSON spec
 - **Validation and Evolution**: generated harnesses include role boundaries, workflow phases, output expectations, checks for unresolved placeholders, and a feedback loop for future updates
 
@@ -157,7 +157,7 @@ Phase 0: Existing Harness Audit + Reference Search
     ↓
 Phase 1: Domain Analysis
     ↓
-Phase 2: Team Architecture Design
+Phase 2: Workflow Architecture Design
     ↓
 Phase 3: Harness Spec Definition
     ↓
@@ -182,7 +182,7 @@ Recommended workflow:
 1. Ask Codex to build a harness for the current repo.
 2. If `codex-harness-100` is available, let the `harness` skill search it for the closest existing patterns. If not, `codex-harness` should still generate a harness without the reference library.
 3. Inspect the top 1 to 3 matching harnesses.
-4. Adapt the team shape, outputs, and skill structure to the current project.
+4. Adapt the workflow shape, outputs, and skill structure to the current project.
 5. Scaffold and refine the new local harness.
 
 ## Installation
@@ -197,7 +197,7 @@ Today, `codex-harness` is ready for repo and personal marketplace distribution. 
 
 ### Repo marketplace
 
-Use this when a team wants the plugin available inside a single repository.
+Use this when a group wants the plugin available inside a single repository.
 
 1. Put the plugin folder at `$REPO_ROOT/plugins/harness`.
 2. Add or update `$REPO_ROOT/.agents/plugins/marketplace.json`.
@@ -291,13 +291,13 @@ Trigger the plugin or skill with prompts like:
 
 ```text
 Set up a harness for this repository.
-Design an agent team for this project.
+Design a Codex subagent workflow for this project.
 Build a research harness.
 Build a code review harness.
 Design a fullstack webapp harness.
 ```
 
-### Collaboration Patterns
+### Workflow Patterns
 
 | Pattern | Best For |
 |--------|----------|
@@ -362,7 +362,7 @@ The scaffold script creates:
 - `.codex/config.toml`
 - `.codex/agents/<role>.toml`
 
-Each generated `.codex/agents/<role>.toml` follows the current Codex custom subagent schema and defines `name`, `description`, and `developer_instructions` directly in the standalone file.
+Each generated `.codex/agents/<role>.toml` follows the current Codex custom agent schema and defines `name`, `description`, and `developer_instructions` directly in the TOML file.
 
 ## Example Output
 
@@ -380,7 +380,7 @@ Another generated sample lives at `examples/fullstack-webapp/` and exercises a m
 **Deep Research**
 
 ```text
-Build a harness for deep research. I need a team that can investigate any topic
+Build a harness for deep research. I need a Codex subagent workflow that can investigate any topic
 from multiple angles, cross-check sources, and produce a structured report.
 ```
 
@@ -401,7 +401,7 @@ security, performance, and code style in parallel, then merge the results into o
 **Content Production**
 
 ```text
-Build a harness for YouTube content production. The team should research topics,
+Build a harness for YouTube content production. The workflow should research topics,
 write scripts, optimize SEO, and plan thumbnails with a clear review step.
 ```
 
@@ -413,6 +413,9 @@ This repository is the harness generator. The prebuilt harness catalog belongs i
 
 - [Codex Plugins](https://developers.openai.com/codex/plugins/)
 - [Build plugins](https://developers.openai.com/codex/plugins/build)
+- [Codex Subagents](https://developers.openai.com/codex/subagents)
+- [Codex Skills](https://developers.openai.com/codex/skills)
+- [Custom instructions with AGENTS.md](https://developers.openai.com/codex/guides/agents-md)
 - [Config reference](https://developers.openai.com/codex/config-reference/#configtoml)
 
 ## License

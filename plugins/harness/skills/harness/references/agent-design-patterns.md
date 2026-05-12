@@ -1,18 +1,18 @@
 # Architecture Patterns
 
-Codex 하네스는 보통 하나의 오케스트레이터 스킬, 여러 repo-local 스킬, 여러 `.codex/agents/*.toml` custom subagent 역할로 구성된다. 중요한 것은 역할 수가 아니라 역할 경계, 데이터 흐름, 검증 루프다.
+Codex 하네스는 보통 하나의 오케스트레이터 스킬, 여러 repo-local 스킬, 여러 `.codex/agents/*.toml` custom agent 역할로 구성된다. 중요한 것은 역할 수가 아니라 역할 경계, 데이터 흐름, 검증 루프다.
 
 ## 실행 모드
 
-### 1. Codex Custom Subagents
+### 1. Codex Custom Agents + Explicit Subagents
 
-기본 실행 모드다. 오케스트레이터가 작업을 분해하고, 필요한 역할을 `.codex/agents/*.toml` 정의에 맞춰 활성화한다.
+기본 실행 모드다. 오케스트레이터가 작업을 분해하고, 필요한 역할을 `.codex/agents/*.toml` 정의에 맞춰 명시적으로 spawn하도록 지시한다. Codex는 subagent를 자동 라우팅하지 않으므로, description은 사람과 오케스트레이터가 어떤 역할을 선택할지 판단하는 기준이다.
 
 ```text
 [orchestrator skill]
    ├── inspect request + repo
    ├── choose active roles
-   ├── delegate with explicit input/output paths
+   ├── explicitly spawn needed subagents with input/output paths
    ├── collect artifacts from _workspace/
    └── integrate, validate, and finalize
 ```
@@ -20,7 +20,7 @@ Codex 하네스는 보통 하나의 오케스트레이터 스킬, 여러 repo-lo
 핵심 원칙:
 
 - 오케스트레이터는 workflow를 소유한다.
-- specialist role은 depth를 소유한다.
+- specialist custom agent는 depth를 소유한다.
 - `_workspace/`는 중간 산출물과 handoff contract를 소유한다.
 - `AGENTS.md`는 포인터와 변경 이력만 소유한다.
 
@@ -42,7 +42,7 @@ Phase마다 실행 방식을 섞는다.
 예:
 
 - Phase 1 요구사항 정리: orchestrator only
-- Phase 2 병렬 리뷰: custom subagents
+- Phase 2 병렬 리뷰: custom agents
 - Phase 3 최종 통합: orchestrator
 - Phase 4 독립 QA: reviewer subagent
 
@@ -64,7 +64,7 @@ Phase마다 실행 방식을 섞는다.
 - 같은 파일을 보고 같은 판단을 한다.
 - 출력이 서로 구분되지 않는다.
 - 오케스트레이터가 역할 결과를 거의 그대로 버린다.
-- 사용자가 narrow request를 했는데 항상 전체 팀이 돈다.
+- 사용자가 narrow request를 했는데 항상 전체 워크플로우가 돈다.
 
 ## 1. Pipeline
 
@@ -156,7 +156,7 @@ producer -> reviewer -> revise -> finalize
 
 - 주된 실패 모드가 품질 드리프트다.
 - 산출물을 객관 기준으로 재검토할 수 있다.
-- 팀을 크게 만들 필요는 없지만 독립 검수는 중요하다.
+- 워크플로우를 크게 만들 필요는 없지만 독립 검수는 중요하다.
 
 권장 규칙:
 
@@ -206,7 +206,7 @@ lead
 리스크:
 
 - 깊이 3단계 이상은 지연과 컨텍스트 손실이 커진다.
-- Codex custom subagents는 repo-local 파일 기반으로 재사용하되, 실제 실행은 오케스트레이터가 조율하도록 설계한다.
+- Codex custom agents는 repo-local 파일 기반으로 재사용하되, 실제 실행은 오케스트레이터가 명시적으로 spawn하고 조율하도록 설계한다.
 
 ## 복합 패턴
 
@@ -219,7 +219,7 @@ lead
 
 ## 에이전트 정의 구조
 
-Codex custom subagent는 `.codex/agents/{name}.toml`로 정의한다.
+Codex custom agent는 `.codex/agents/{name}.toml`로 정의한다.
 
 ```toml
 name = "security-reviewer"

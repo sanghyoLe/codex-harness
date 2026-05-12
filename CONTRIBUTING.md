@@ -1,6 +1,6 @@
 # Contributing to Harness
 
-Thanks for considering a contribution to **Codex Harness** — a Codex-native meta-skill factory that designs project harnesses, custom subagent roles, and repo-local skills.
+Thanks for considering a contribution to **Codex Harness** — a Codex-native meta-skill factory that designs project harnesses, custom agent roles, and repo-local skills.
 
 This document covers: response SLAs, how to contribute, development setup, PR conventions, commit message rules, code of conduct, and maintainer list.
 
@@ -35,7 +35,7 @@ Different kinds of contributions go through different entry points. Pick the one
 ### Feature request
 
 - Open an issue using the **Feature request** form.
-- We expect a short "what problem does this solve" paragraph. If you have a proposal, put it in the PR-ready shape (which of the 6 team-architecture patterns does it extend / replace?).
+- We expect a short "what problem does this solve" paragraph. If you have a proposal, put it in the PR-ready shape (which of the 6 workflow-architecture patterns does it extend / replace?).
 
 ### Question
 
@@ -68,7 +68,7 @@ Different kinds of contributions go through different entry points. Pick the one
 
 ### Runtime compatibility
 
-The upstream `harness` project targets Claude Code Agent Teams. This repository ports the concept to Codex-native files: `AGENTS.md`, `.agents/skills/`, `.codex/config.toml`, and `.codex/agents/*.toml`.
+The upstream `harness` project targets a different runtime model. This repository ports the concept to Codex-native files: `AGENTS.md`, `.agents/skills/`, `.codex/config.toml`, and `.codex/agents/*.toml`.
 
 Runtime assumptions are tracked in `docs/experimental-dependency.md`.
 
